@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\SectionController;
+use App\Http\Controllers\Backend\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,8 +41,24 @@ Route::get('/dashboard/admin', function () {
 //sections
         Route::middleware(['auth:admin'])->group(function () {
             Route::get('/section', [SectionController::class,'index'])->name('section.index');
+            Route::post('/store-section', [SectionController::class,'store'])->name('section.store');
+            Route::post('/update-section', [SectionController::class,'update'])->name('section.update');
+            Route::post('/delete-section', [SectionController::class,'delete'])->name('section.delete');
+
             
         });
+
+//end sections
+
+
+
+//sections
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/doctors', [DoctorController::class,'index'])->name('doctors.index');
+    
+
+    
+});
 
 //end sections
 
