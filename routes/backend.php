@@ -44,23 +44,22 @@ Route::get('/dashboard/admin', function () {
             Route::post('/store-section', [SectionController::class,'store'])->name('section.store');
             Route::post('/update-section', [SectionController::class,'update'])->name('section.update');
             Route::post('/delete-section', [SectionController::class,'delete'])->name('section.delete');
-
-            
         });
 
 //end sections
 
 
 
-//sections
+//doctors
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('/doctors', [DoctorController::class,'index'])->name('doctors.index');
-    
+    Route::get('/create-doctor', [DoctorController::class,'create'])->name('doctors.create');
+    Route::get('/edit-doctor/{id}', [DoctorController::class,'edit'])->name('doctors.edit');    
+    Route::post('/store-doctor', [DoctorController::class,'store'])->name('doctors.store');
 
     
 });
-
-//end sections
+//end doctors
 
 
 

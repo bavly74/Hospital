@@ -17,5 +17,8 @@ class Doctor extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+    public function section(){
+        return $this->belongsTo(Section::class);
+    }
     
 }
