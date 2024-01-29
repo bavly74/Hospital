@@ -2,6 +2,7 @@
 namespace App\Repositories\Doctors;
 use App\Models\Doctor;
 use App\Interfaces\Doctors\DoctorRepositoryInterface;
+use App\Models\Appointment;
 use App\Models\Section;
 use App\Traits\UploadImageTrait;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,8 @@ class DoctorRepository implements DoctorRepositoryInterface{
 
     public function create(){
         $sections=Section::all();
-        return view('dashboard.doctors.add',compact('sections'));
+        $appointments=Appointment::all();
+        return view('dashboard.doctors.add',compact('sections','appointments'));
     }
 
     public function store($request){
@@ -26,7 +28,7 @@ class DoctorRepository implements DoctorRepositoryInterface{
         $doctor->email = $request->email;
         $doctor->phone = $request->phone;
         $doctor->password = $request->password;
-        $doctor->price = $request->price;
+       
         $doctor->section_id = $request->section_id;
         $doctor->appointments=implode(",",$request->appointments);
         $doctor->save();
@@ -35,7 +37,7 @@ class DoctorRepository implements DoctorRepositoryInterface{
         DB::commit();
         session()->flash('add');
         return redirect()->route('doctors.create');
-       
+
        }catch(\Exception $e){
         DB::rollBack();
         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -48,6 +50,27 @@ class DoctorRepository implements DoctorRepositoryInterface{
     }
 
     public function delete($request){
-        return "ok";
+
+       if($request->page_id==1){
+        if($request->filename){
+            $this->deleteImage('upload_image','doctors/'.$request->filename,$request->id,$request->filename);
+        }
+        Doctor::destroy($request->id);
+        session()->flash('delete');
+        return redirect()->route('doctors.index');
+       }else{
+
+        $delete_select_id=explode(",",$request->delete_select_id) ;
+        foreach ($delete_select_id as $ids_doctors){
+        $doctor = Doctor::findorfail($ids_doctors);
+        if($doctor->image){
+            $this->deleteImage('upload_image','doctors/'.$doctor->image->filename,$ids_doctors,$doctor->image->filename);
+        }
+        Doctor::destroy($ids_doctors);
+
+    }
+    session()->flash('delete');
+    return redirect()->route('doctors.index');
+       }
     }
  }

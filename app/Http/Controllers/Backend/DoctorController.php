@@ -11,13 +11,13 @@ class DoctorController extends Controller
     public function __construct(DoctorRepositoryInterface $doctors){
         $this->doctors = $doctors;
     }
-  
+
     public function index()
     {
         return $this->doctors->index();
     }
 
-   
+
     public function create()
     {
         return $this->doctors->create();
@@ -46,14 +46,14 @@ class DoctorController extends Controller
         //
     }
 
- 
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        //
+       return $this->doctors->delete($request);
     }
 }

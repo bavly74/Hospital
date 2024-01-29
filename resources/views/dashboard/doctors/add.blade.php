@@ -13,8 +13,8 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto"> {{trans('main-sidebar_trans.doctors')}}</h4><span
-                    class="text-muted mt-1 tx-13 mr-2 mb-0">/
+                <h4 class="my-auto mb-0 content-title"> {{trans('main-sidebar_trans.doctors')}}</h4><span
+                    class="mt-1 mb-0 mr-2 text-muted tx-13">/
                {{trans('doctors.add_doctor')}}</span>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 <div class="card-body">
                     <form action="{{ route('doctors.store') }}" method="post" autocomplete="off" enctype="multipart/form-data">
                         {{ csrf_field() }}
-                        <div class="pd-30 pd-sm-40 bg-gray-200">
+                        <div class="bg-gray-200 pd-30 pd-sm-40">
 
                             <div class="row row-xs align-items-center mg-b-20">
                                 <div class="col-md-1">
@@ -101,13 +101,11 @@
                                 <div class="col-md-11 mg-t-5 mg-md-t-0">
                                     <select multiple="multiple" class="testselect2" name="appointments[]">
                                         <option selected value="" selected disabled>-- حدد المواعيد --</option>
-                                        <option value="السبت">السبت</option>
-                                        <option value="الأحد">الأحد</option>
-                                        <option value="الأثنين">الأثنين</option>
-                                        <option value="الثلاثاء">الثلاثاء</option>
-                                        <option value="الأربعاء">الأربعاء</option>
-                                        <option value="الخميس">الخميس</option>
-                                        <option value="الجمعة">الجمعة</option>
+                                    @foreach ($appointments as $appointment)
+                                    <option value="{{ $appointment->name }}">{{ $appointment->name }}</option>
+
+                                    @endforeach
+
                                     </select>
 
                                 </div>

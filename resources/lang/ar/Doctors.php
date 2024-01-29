@@ -1,8 +1,7 @@
 <?php
 
 return array (
-  'Doctors'=>'الاطباء',
-  'view_all'=>'عرض الكل',
+  'Doctors' => 'الاطباء',
   'Enabled' => 'مفعل',
   'Not_enabled' => 'غير مفعل',
   'Processes' => 'العمليات',
@@ -10,6 +9,7 @@ return array (
   'add_doctor' => 'اضافة طبيب',
   'appointments' => 'المواعيد',
   'created_at' => 'تاريخ الاضافة',
+  'doc_img' => 'صورة الطبيب',
   'doctor_photo' => 'صورة الطبيب',
   'email' => 'البريد الالكتروني',
   'name' => 'اسم الطبيب',
@@ -18,4 +18,7 @@ return array (
   'price' => 'سعر الكشف',
   'section' => 'القسم',
   'submit' => 'تاكيد',
+  'view_all' => 'عرض الكل',
+  'delete_select' => 'حذف ',
+
 );

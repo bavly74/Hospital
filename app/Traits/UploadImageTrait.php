@@ -3,6 +3,8 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
+
 trait UploadImageTrait{
  public function uploadImage(Request $request,$inputName,$folderName,$disk,$imageable_id,$imageable_type){
     if(!$request->hasFile($inputName)){
@@ -15,10 +17,17 @@ trait UploadImageTrait{
 
     $Image = new Image();
     $Image->filename = $fileName;
-    $Image->imageable_id = $imageable_id;   
+    $Image->imageable_id = $imageable_id;
     $Image->imageable_type = $imageable_type;
     $Image->save();
 
     return $request->file($inputName)->storeAs($folderName, $fileName, $disk);
  }
+
+
+ public function deleteImage($disk,$path,$id){
+Storage::disk($disk)->delete($path);
+Image::where('imageable_id',$id)->delete();
+ }
+
 }
