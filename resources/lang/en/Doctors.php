@@ -1,9 +1,7 @@
 <?php
 
 return array (
-  'view_all'=>'view all',
-
-  'Doctors'=>'Doctors',
+  'Doctors' => 'Doctors',
   'Enabled' => 'Enabled',
   'Not_enabled' => 'Not_enabled',
   'Processes' => 'Processes',
@@ -11,6 +9,7 @@ return array (
   'add_doctor' => 'Add Doctor',
   'appointments' => 'appointments',
   'created_at' => 'created_at',
+  'doc_img' => 'doctor image',
   'doctor_photo' => 'Doctor Photo',
   'email' => 'Email',
   'name' => 'Doctor Name',
@@ -19,4 +18,7 @@ return array (
   'price' => 'price',
   'section' => 'Section',
   'submit' => 'submit',
+  'view_all' => 'view all',
+  'delete_select' => 'delete selected',
+
 );

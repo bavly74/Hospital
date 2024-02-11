@@ -10,16 +10,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('Doctors.destroy', 'test') }}" method="post">
-                {{ method_field('delete') }}
+            <form action="{{ route('doctors.delete', 'test') }}" method="post">
+
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <h5>{{trans('sections_trans.Warning')}}</h5>
                     <input type="hidden" id="delete_select_id" name="delete_select_id" value=''>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans('Dashboard/sections_trans.Close')}}</button>
-                    <button type="submit" class="btn btn-danger">{{trans('Dashboard/sections_trans.submit')}}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans('sections_trans.Close')}}</button>
+                    <button type="submit" class="btn btn-danger">{{trans('sections_trans.submit')}}</button>
                 </div>
             </form>
         </div>

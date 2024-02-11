@@ -19,7 +19,7 @@ class CreateDoctorsTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone');
-            $table->decimal('price',8,2);
+           
             $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
             $table->boolean('status')->default(1);
             $table->timestamps();
