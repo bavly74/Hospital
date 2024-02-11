@@ -56,8 +56,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/create-doctor', [DoctorController::class,'create'])->name('doctors.create');
     Route::get('/edit-doctor/{id}', [DoctorController::class,'edit'])->name('doctors.edit');    
     Route::post('/store-doctor', [DoctorController::class,'store'])->name('doctors.store');
+    Route::post('/delete-doctors', [DoctorController::class,'delete'])->name('doctors.delete_select');
 
-    
 });
 //end doctors
 

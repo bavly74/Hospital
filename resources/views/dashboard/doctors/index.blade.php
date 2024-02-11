@@ -45,6 +45,8 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th><input name="select_all"  id="example-select-all"  type="checkbox"/></th>
+
                                 <th >{{trans('doctors.name')}}</th>
                                 <th >{{trans('doctors.email')}}</th>
                                 <th>{{trans('doctors.section')}}</th>
@@ -60,6 +62,8 @@
                           @foreach($doctors as $doctor)
                               <tr>
                                   <td>{{ $loop->iteration }}</td>
+                                  <td><input type="checkbox" name="delete_select" value="{{$doctor->id}}" class="delete_select"></td>
+
                                   <td>{{ $doctor->name }}</td>
                                   <td>{{ $doctor->email }}</td>
                                   <td>{{ $doctor->section->name}}</td>
@@ -73,9 +77,17 @@
 
                                   <td>{{ $doctor->created_at->diffForHumans() }}</td>
                                   <td>
-                                      <a class="modal-effect btn btn-sm btn-info" href="{{route('doctors.edit',$doctor->id)}}"><i class="las la-pen"></i></a>
-                                      <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"  data-toggle="modal" href="#delete{{$doctor->id}}"><i class="las la-trash"></i></a>
-                                  </td>
+                                  <div class="dropdown">
+                                    <button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-outline-primary btn-sm" data-toggle="dropdown" type="button">{{trans('doctors.Processes')}}<i class="fas fa-caret-down mr-1"></i></button>
+                                    <div class="dropdown-menu tx-13">
+                                        <a class="dropdown-item" href="{{route('doctors.edit',$doctor->id)}}"><i style="color: #0ba360" class="text-success ti-user"></i>&nbsp;&nbsp;تعديل البيانات</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete{{$doctor->id}}"><i   class="text-primary ti-key"></i>&nbsp;&nbsp;تغير كلمة المرور</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete{{$doctor->id}}"><i   class="text-warning ti-back-right"></i>&nbsp;&nbsp;تغير الحالة</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete{{$doctor->id}}"><i   class="text-danger  ti-trash"></i>&nbsp;&nbsp;حذف البيانات</a>
+
+                                    </div>
+                                </div>
+                            </td>
                               </tr>
                               @include('dashboard.doctors.delete')
                           @endforeach
@@ -117,4 +129,16 @@
     <!--Internal  Notify js -->
     <script src="{{URL::asset('dashboard/plugins/notify/js/notifIt.js')}}"></script>
     <script src="{{URL::asset('/plugins/notify/js/notifit-custom.js')}}"></script>
+
+
+    <script>
+        $(function() {
+            jQuery("[name=select_all]").click(function(source) {
+                checkboxes = jQuery("[name=delete_select]");
+                for(var i in checkboxes){
+                    checkboxes[i].checked = source.target.checked;
+                }
+            });
+        })
+    </script>
 @endsection
