@@ -10,5 +10,6 @@ public function store($request);
 public function update($request);
 public function delete($request);
 public function updatePassword($request);
+public function updateStatus($request);
 
 }

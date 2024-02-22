@@ -110,7 +110,7 @@
                                     <div class="dropdown-menu tx-13">
                                         <a class="dropdown-item" href="<?php echo e(route('doctors.edit',$doctor->id)); ?>"><i style="color: #0ba360" class="text-success ti-user"></i>&nbsp;&nbsp;تعديل البيانات</a>
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#update_password<?php echo e($doctor->id); ?>"><i   class="text-primary ti-key"></i>&nbsp;&nbsp;تغير كلمة المرور</a>
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete<?php echo e($doctor->id); ?>"><i   class="text-warning ti-back-right"></i>&nbsp;&nbsp;تغير الحالة</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#update_status<?php echo e($doctor->id); ?>"><i   class="text-warning ti-back-right"></i>&nbsp;&nbsp;تغير الحالة</a>
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete<?php echo e($doctor->id); ?>"><i   class="text-danger  ti-trash"></i>&nbsp;&nbsp;حذف البيانات</a>
 
                                     </div>
@@ -120,6 +120,8 @@
                               <?php echo $__env->make('dashboard.doctors.delete', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                               <?php echo $__env->make('dashboard.doctors.delete_select', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                               <?php echo $__env->make('dashboard.doctors.update_password', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                              <?php echo $__env->make('dashboard.doctors.update_status', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
                           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>

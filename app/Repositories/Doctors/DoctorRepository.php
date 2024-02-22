@@ -6,6 +6,8 @@ use App\Models\Appointment;
 use App\Models\Section;
 use App\Traits\UploadImageTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
 
 class DoctorRepository implements DoctorRepositoryInterface{
     use UploadImageTrait;
@@ -99,6 +101,10 @@ class DoctorRepository implements DoctorRepositoryInterface{
         if($request->filename){
             $this->deleteImage('upload_image','doctors/'.$request->filename,$request->id);
         }
+        $doctor=Doctor::findorFail($request->id);
+        return   $doctor->appointments;
+        $doctor->doctorappointments()->sync($doctor->appointments);
+
         Doctor::destroy($request->id);
         session()->flash('delete');
         return redirect()->route('doctors.index');
@@ -120,6 +126,29 @@ class DoctorRepository implements DoctorRepositoryInterface{
 
 
     public function updatePassword($request){
-        return $request;
+        $request->validate([
+            'password'=>'required|min:6|confirmed',
+            'password_confirmation'=>'required|'
+        ],[
+            'password.confirmed'=>'write your password correctly'
+        ]);
+
+        Doctor::where('id',$request->id)->update([
+            'password'=>hash::make($request->password)
+        ]);
+
+        session()->flash('update');
+    return redirect()->route('doctors.index');
+
     }
+
+
+    public function updateStatus($request){
+        Doctor::where('id',$request->id)->update([
+            'status'=>($request->status)
+        ]);
+        session()->flash('update');
+        return redirect()->route('doctors.index');
+    }
+
 }

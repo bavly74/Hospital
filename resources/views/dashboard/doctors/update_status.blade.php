@@ -1,26 +1,26 @@
 <!-- Modal -->
-<div class="modal fade" id="update_password{{ $doctor->id }}" tabindex="-1" role="dialog"
+<div class="modal fade" id="update_status{{ $doctor->id }}" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">
-                    {{ trans('doctors.update_password') }} {{$doctor->name}}</h5>
+                    {{ trans('doctors.Status_change') }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('doctors.updatePassword') }}" method="post" autocomplete="off">
+            <form action="{{ route('doctors.updateStatus') }}" method="post" autocomplete="off">
                 {{ csrf_field() }}
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="password">{{ trans('doctors.new_password') }}</label>
-                        <input type="password" class="form-control" id="password" name="password" >
-                    </div>
 
                     <div class="form-group">
-                        <label for="password_confirmation">{{ trans('doctors.confirm_password') }}</label>
-                        <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
+                        <label for="status">{{trans('doctors.Status')}}</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="" selected disabled>--{{trans('doctors.Choose')}}--</option>
+                            <option value="1">{{trans('doctors.Enabled')}}</option>
+                            <option value="0">{{trans('doctors.Not_enabled')}}</option>
+                        </select>
                     </div>
 
                     <input type="hidden" name="id" value="{{ $doctor->id }}">

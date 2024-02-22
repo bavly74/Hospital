@@ -60,6 +60,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/update-doctor', [DoctorController::class,'update'])->name('doctors.update');
     Route::post('/delete-doctor', [DoctorController::class,'delete'])->name('doctors.delete');
     Route::post('/update-password-doctor', [DoctorController::class,'updatePassword'])->name('doctors.updatePassword');
+    Route::post('/update-status-doctor', [DoctorController::class,'updateStatus'])->name('doctors.updateStatus');
 
     
 

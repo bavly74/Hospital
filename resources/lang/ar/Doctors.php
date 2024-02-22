@@ -20,5 +20,7 @@ return array (
   'submit' => 'تاكيد',
   'view_all' => 'عرض الكل',
   'delete_select' => 'حذف ',
-
+'new_password'=>"كلمة السر الجديدة",
+'confirm_password'=>"اعد كتابة كلمة السر ",
+'update_password'=>"تعديل كلمة السر"
 );

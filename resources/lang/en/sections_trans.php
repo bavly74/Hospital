@@ -12,4 +12,6 @@ return array (
   'name_sections' => 'Name Sections',
   'section_doctors' => 'Section Doctors',
   'submit' => 'Submit',
+  'new_password'=>"new password",
+'confirm_password'=>"Confirm password"
 );

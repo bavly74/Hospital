@@ -20,5 +20,6 @@ return array (
   'submit' => 'submit',
   'view_all' => 'view all',
   'delete_select' => 'delete selected',
+  'update_password'=>"  update password"
 
 );

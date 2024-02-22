@@ -27,8 +27,8 @@
                     <input type="hidden" name="id" value="<?php echo e($doctor->id); ?>">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo e(trans('dashboard/sections_trans.Close')); ?></button>
-                    <button type="submit" class="btn btn-primary"><?php echo e(trans('dashboard/sections_trans.submit')); ?></button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo e(trans('sections_trans.Close')); ?></button>
+                    <button type="submit" class="btn btn-primary"><?php echo e(trans('sections_trans.submit')); ?></button>
                 </div>
             </form>
         </div>
