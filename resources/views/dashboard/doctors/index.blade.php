@@ -41,6 +41,8 @@
 
                 </div>
                 </div>
+
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example" class="table key-buttons text-md-nowrap">
@@ -69,7 +71,7 @@
                                     @if($doctor->image)
                                     <img src="{{ asset('dashboard/images/doctors/'.$doctor->image->filename) }}"/>
                                     @else
-                                    <img src="{{ asset('dashboard/images/doctor_default.png') }}"  />
+                                    <img src="{{ asset('dashboard/images/doctor_default.png') }}" style="width:50px;heigh:50px" />
                                     @endif
                                   </td>
                                   <td>{{ $doctor->name }}</td>
@@ -78,12 +80,25 @@
                                   <td>{{ $doctor->email }}</td>
                                   <td>{{ $doctor->section->name}}</td>
                                   <td>{{ $doctor->phone}}</td>
-                                  <td>{{ $doctor->appointments}}</td>
+                                  <td>
+                                    @foreach ($doctor->doctorappointments as $appointment )
+                                      {{ $appointment->name }}
+                                  @endforeach
+                                </td>
                                   <td>{{ $doctor->price}}</td>
                                   <td>
                                       <div class="dot-label bg-{{$doctor->status == 1 ? 'success':'danger'}} ml-1"></div>
                                       {{$doctor->status == 1 ? trans('doctors.Enabled'):trans('doctors.Not_enabled')}}
+
+                                      
+                                      <!-- <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1"  {{$doctor->status == 1 ? 'checked': ''}}>
+                                        <label class="custom-control-label" for="customSwitch1">تغيير الحالة</label>
+                                      </div> -->
                                   </td>
+
+                                                  <!-- Default checked -->
+
 
                                   <td>{{ $doctor->created_at->diffForHumans() }}</td>
                                   <td>
@@ -91,7 +106,7 @@
                                     <button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-outline-primary btn-sm" data-toggle="dropdown" type="button">{{trans('doctors.Processes')}}<i class="fas fa-caret-down mr-1"></i></button>
                                     <div class="dropdown-menu tx-13">
                                         <a class="dropdown-item" href="{{route('doctors.edit',$doctor->id)}}"><i style="color: #0ba360" class="text-success ti-user"></i>&nbsp;&nbsp;تعديل البيانات</a>
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete{{$doctor->id}}"><i   class="text-primary ti-key"></i>&nbsp;&nbsp;تغير كلمة المرور</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#update_password{{$doctor->id}}"><i   class="text-primary ti-key"></i>&nbsp;&nbsp;تغير كلمة المرور</a>
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete{{$doctor->id}}"><i   class="text-warning ti-back-right"></i>&nbsp;&nbsp;تغير الحالة</a>
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete{{$doctor->id}}"><i   class="text-danger  ti-trash"></i>&nbsp;&nbsp;حذف البيانات</a>
 
@@ -101,6 +116,7 @@
                               </tr>
                               @include('dashboard.doctors.delete')
                               @include('dashboard.doctors.delete_select')
+                              @include('dashboard.doctors.update_password')
                           @endforeach
                             </tbody>
                         </table>

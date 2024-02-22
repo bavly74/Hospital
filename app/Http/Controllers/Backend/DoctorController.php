@@ -35,25 +35,24 @@ class DoctorController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+       return $this->doctors->edit($id);
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        return $this->doctors->update($request);
     }
 
     public function delete(Request $request)
     {
        return $this->doctors->delete($request);
+    }
+
+    public function updatePassword($request){
+        return $this->doctors->updatePassword($request);
+
     }
 }

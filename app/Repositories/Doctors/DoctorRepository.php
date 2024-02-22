@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class DoctorRepository implements DoctorRepositoryInterface{
     use UploadImageTrait;
     public function index(){
-        $doctors = Doctor::all();
+        $doctors = Doctor::with('doctorappointments')->get();
         return view('dashboard.doctors.index',compact('doctors'));
     }
 
@@ -30,7 +30,9 @@ class DoctorRepository implements DoctorRepositoryInterface{
         $doctor->password = $request->password;
        
         $doctor->section_id = $request->section_id;
-        $doctor->appointments=implode(",",$request->appointments);
+        //$doctor->appointments=implode(",",$request->appointments);
+        $doctor->doctorappointments()->attach($request->appointments);
+
         $doctor->save();
         $this->uploadImage($request,'photo','doctors','upload_image',$doctor->id,'App\Models\Doctor');
 
@@ -45,32 +47,79 @@ class DoctorRepository implements DoctorRepositoryInterface{
     }
 
 
-    public function update($request){
-        return "ok";
+    public function edit($id){
+        $doctor=Doctor::with('doctorappointments')->where('id',$id)->first();
+        $sections=Section::all();
+        $appointments=Appointment::all();
+        return view('dashboard.doctors.edit',compact('doctor','sections','appointments'));
     }
+
+
+    public function update($request){
+        DB::beginTransaction();
+        try{
+            // Doctor::where('id',$request->id)->update([
+            //     'email'=>$request->email,
+            //     'phone'=>$request->phone,
+            //     'section_id'=>$request->section_id,
+            //     'name'=>$request->name,
+            // ]);
+            $doctor=Doctor::where('id',$request->id)->first();
+            $doctor->name=$request->name;
+            $doctor->email=$request->email;
+            $doctor->section_id=$request->section_id;
+            $doctor->phone=$request->phone;
+            $doctor->save();
+
+            $doctor->doctorappointments()->sync($request->appointments);
+
+            if($request->hasFile('photo')){
+                if($doctor->image){
+                    $old_img=$doctor->image->filename;
+                    $this->deleteImage('upload_image','doctors/'.$old_img,$request->id);
+                }else{
+                    $this->uploadImage($request,'photo','doctors','upload_image',$request->id,'App\Models\Doctor');
+                }
+            }
+
+            DB::commit();
+            session()->flash('edit');
+            return redirect()->back();
+
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+    
 
     public function delete($request){
 
-       if($request->page_id==1){
+    if($request->page_id==1){
         if($request->filename){
-            $this->deleteImage('upload_image','doctors/'.$request->filename,$request->id,$request->filename);
+            $this->deleteImage('upload_image','doctors/'.$request->filename,$request->id);
         }
         Doctor::destroy($request->id);
         session()->flash('delete');
         return redirect()->route('doctors.index');
-       }else{
+    }else{
 
         $delete_select_id=explode(",",$request->delete_select_id) ;
         foreach ($delete_select_id as $ids_doctors){
         $doctor = Doctor::findorfail($ids_doctors);
         if($doctor->image){
-            $this->deleteImage('upload_image','doctors/'.$doctor->image->filename,$ids_doctors,$doctor->image->filename);
+            $this->deleteImage('upload_image','doctors/'.$doctor->image->filename,$ids_doctors,);
         }
         Doctor::destroy($ids_doctors);
 
     }
     session()->flash('delete');
     return redirect()->route('doctors.index');
-       }
     }
- }
+    }
+
+
+    public function updatePassword($request){
+        return $request;
+    }
+}

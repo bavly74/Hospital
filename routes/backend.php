@@ -57,6 +57,12 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/edit-doctor/{id}', [DoctorController::class,'edit'])->name('doctors.edit');
     Route::post('/store-doctor', [DoctorController::class,'store'])->name('doctors.store');
     Route::post('/delete-doctors', [DoctorController::class,'delete'])->name('doctors.delete_select');
+    Route::post('/update-doctor', [DoctorController::class,'update'])->name('doctors.update');
+    Route::post('/delete-doctor', [DoctorController::class,'delete'])->name('doctors.delete');
+    Route::post('/update-password-doctor', [DoctorController::class,'updatePassword'])->name('doctors.updatePassword');
+
+    
+
 
 });
 //end doctors
