@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDoctorTranslationsTable extends Migration
+class CreateServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateDoctorTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctor_translations', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('locale')->index();
-            $table->string('name');
-            $table->unique(['doctor_id','locale']);
-            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
+            $table->decimal('price','8',2);
+            $table->text('description');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateDoctorTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctor_translations');
+        Schema::dropIfExists('services');
     }
 }
