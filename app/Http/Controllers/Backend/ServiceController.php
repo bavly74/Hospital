@@ -2,41 +2,29 @@
 
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
-
+use App\Interfaces\Services\ServiceRepositoryInterface;
 use App\Models\Service;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\ServiceRequest;
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $service;
+    public function __construct(ServiceRepositoryInterface $service)
+    {
+        $this->service=$service;
+
+    }
+
     public function index()
     {
-        //
+       return $this->service->index();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
-        //
+        return $this->service->store($request);
+
     }
 
     /**
