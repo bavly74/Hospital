@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\SectionController;
 use App\Http\Controllers\Backend\DoctorController;
+use App\Http\Controllers\Backend\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,12 +63,18 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/update-password-doctor', [DoctorController::class,'updatePassword'])->name('doctors.updatePassword');
     Route::post('/update-status-doctor', [DoctorController::class,'updateStatus'])->name('doctors.updateStatus');
 
-    
-
-
 });
 //end doctors
 
+
+//services
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/single-services', [ServiceController::class,'index'])->name('single-services.index');
+    Route::post('/single-services/store', [ServiceController::class,'store'])->name('single-services.store');
+    Route::post('/single-services/update', [ServiceController::class,'update'])->name('single-services.update');
+    Route::post('/single-services/delete', [ServiceController::class,'delete'])->name('single-services.delete');
+
+});
 
 
 });
