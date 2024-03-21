@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\Services\ServiceRepositoryInterface;
 use App\Models\Service;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\ServiceRequest;
 class ServiceController extends Controller
 {
     protected $services;

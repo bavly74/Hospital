@@ -2,10 +2,12 @@
 namespace App\Repositories\Services;
 use App\Models\Service;
 use App\Interfaces\Services\ServiceRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 class ServiceRepository implements ServiceRepositoryInterface{
     public function index(){
         $services=Service::all();
         return view('dashboard.services.single-services.index',compact('services'));
+
 
     }
     public function store($request){
@@ -42,3 +44,5 @@ class ServiceRepository implements ServiceRepositoryInterface{
         return redirect()->route('single-services.index');
     }
 }
+    
+
