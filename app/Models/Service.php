@@ -8,14 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
-<<<<<<< HEAD
-    use Translatable; 
+   use Translatable;
     use HasFactory;
     protected $fillable =['name','description'];
-=======
-    use Translatable;
-    use HasFactory;
+
     protected $guarded=[];
->>>>>>> fff3bce05da4ab03f3ab28c42c9ea6f50f13fbd2
+
     public $translatedAttributes = ['name'];
 }

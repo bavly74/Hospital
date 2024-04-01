@@ -8,11 +8,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-<<<<<<< HEAD
             <form action="{{ route('single-services.store') }}" method="post" autocomplete="off">
-=======
-            <form action="{{ route('service.store') }}" method="post" autocomplete="off">
->>>>>>> fff3bce05da4ab03f3ab28c42c9ea6f50f13fbd2
+
                 @csrf
                 <div class="modal-body">
                     <label for="name">{{trans('Services.name')}}</label>
@@ -32,8 +29,5 @@
             </form>
         </div>
     </div>
-<<<<<<< HEAD
 </div>
-=======
 </div>
->>>>>>> fff3bce05da4ab03f3ab28c42c9ea6f50f13fbd2

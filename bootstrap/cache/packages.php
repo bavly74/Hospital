@@ -39,6 +39,13 @@
       0 => 'Laravel\\Breeze\\BreezeServiceProvider',
     ),
   ),
+  'laravel/legacy-factories' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Illuminate\\Database\\Eloquent\\LegacyFactoryServiceProvider',
+    ),
+  ),
   'laravel/sail' => 
   array (
     'providers' => 
@@ -58,6 +65,17 @@
     'providers' => 
     array (
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    ),
+  ),
+  'livewire/livewire' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Livewire\\LivewireServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Livewire' => 'Livewire\\Livewire',
     ),
   ),
   'mcamara/laravel-localization' => 
