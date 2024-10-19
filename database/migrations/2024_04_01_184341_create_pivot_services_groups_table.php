@@ -15,6 +15,8 @@ class CreatePivotServicesGroupsTable extends Migration
     {
         Schema::create('pivot_services_groups', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->foreignId('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->timestamps();
         });
     }

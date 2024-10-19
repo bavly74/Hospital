@@ -15,6 +15,11 @@ class CreateGroupsTable extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
+            $table->decimal('Total_before_discount',8,2);
+            $table->decimal('discount_value',8,2);
+            $table->decimal('Total_after_discount',8,2);
+            $table->string('tax_rate');
+            $table->decimal('Total_with_tax',8,2);
             $table->timestamps();
         });
     }
