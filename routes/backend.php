@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\SectionController;
 use App\Http\Controllers\Backend\DoctorController;
 use App\Http\Controllers\Backend\ServiceController;
+use App\Http\Controllers\GroupServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -73,6 +74,15 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/single-services/store', [ServiceController::class,'store'])->name('single-services.store');
     Route::post('/single-services/update', [ServiceController::class,'update'])->name('single-services.update');
     Route::post('/single-services/delete', [ServiceController::class,'delete'])->name('single-services.delete');
+
+});
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/group-service', [GroupServiceController::class,'create'])->name('group-service.create');
+    Route::post('/group-service/store', [GroupServiceController::class,'store'])->name('group-service.store');
+
+    // Route::post('/single-services/update', [ServiceController::class,'update'])->name('single-services.update');
+    // Route::post('/single-services/delete', [ServiceController::class,'delete'])->name('single-services.delete');
 
 });
 
