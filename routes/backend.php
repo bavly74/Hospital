@@ -78,12 +78,13 @@ Route::middleware(['auth:admin'])->group(function () {
 });
 
 Route::middleware(['auth:admin'])->group(function () {
-    Route::get('/group-service', [GroupServiceController::class,'create'])->name('group-service.create');
-    Route::post('/group-service/store', [GroupServiceController::class,'store'])->name('group-service.store');
+    // Route::get('/group-service', [GroupServiceController::class,'create'])->name('group-service.create');
+    // Route::post('/group-service/store', [GroupServiceController::class,'store'])->name('group-service.store');
 
     // Route::post('/single-services/update', [ServiceController::class,'update'])->name('single-services.update');
     // Route::post('/single-services/delete', [ServiceController::class,'delete'])->name('single-services.delete');
 
+    Route::view('/group-service/create','livewire.group-service.include-create')->name('group-service.create');
 });
 
 

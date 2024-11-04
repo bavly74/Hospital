@@ -8,8 +8,11 @@ use Illuminate\Http\Request;
 
 class GroupServiceController extends Controller
 {
-    public function create(){
-        $services = Service::all();
-        return view('dashboard.services.group.create',compact('services'));
+    public function index()  {
+        return view('dashboard.services.group.create');
     }
+    // public function create(){
+    //     $services = Service::all();
+    //     return view('dashboard.services.group.create',compact('services'));
+    // }
 }

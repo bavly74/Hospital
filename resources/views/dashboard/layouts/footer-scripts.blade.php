@@ -33,3 +33,4 @@
 <script src="{{URL::asset('dashboard/plugins/side-menu/sidemenu.js')}}"></script>
 <script src="{{asset('js/app.js')}}"></script>
 
+@livewireScripts
