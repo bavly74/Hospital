@@ -15,6 +15,11 @@ class CreateGroupService extends Component
     public $name_group;
     public $notes;
     public $ServiceSaved = false;
+    public $show_table = true;
+
+    public $updateMode = false;
+
+    public $group_id;
 
     public function mount()
     {
@@ -32,6 +37,7 @@ class CreateGroupService extends Component
         }
 
         return view('livewire.group-service.create-group-service', [
+            'groups'=>Group::all(),
             'subtotal' => $Total_after_discount = $total - ((is_numeric($this->discount_value) ? $this->discount_value : 0)),
             'total' => $Total_after_discount * (1 + (is_numeric($this->taxes) ? $this->taxes : 0) / 100)
         ]);
@@ -89,41 +95,115 @@ class CreateGroupService extends Component
 
     public function saveGroup()
     {
-        $Groups = new Group();
-        $total = 0;
+        if($this->updateMode){
 
-        foreach ($this->GroupsItems as $groupItem) {
-            if ($groupItem['is_saved'] && $groupItem['service_price'] && $groupItem['quantity']) {
-                // الاجمالي قبل الخصم
-                $total += $groupItem['service_price'] * $groupItem['quantity'];
+            $Groups = Group::find($this->group_id);
+            $total = 0;
+            foreach ($this->GroupsItems as $groupItem) {
+                if ($groupItem['is_saved'] && $groupItem['service_price'] && $groupItem['quantity']) {
+                    // الاجمالي قبل الخصم
+                    $total += $groupItem['service_price'] * $groupItem['quantity'];
+                }
             }
+            //الاجمالي قبل الخصم
+            $Groups->total_before_discount = $total;
+            // قيمة الخصم
+            $Groups->discount_value = $this->discount_value;
+            // الاجمالي بعد الخصم
+            $Groups->total_after_discount = $total - ((is_numeric($this->discount_value) ? $this->discount_value : 0));
+            //  نسبة الضريبة
+            $Groups->tax_rate = $this->taxes;
+            // الاجمالي + الضريبة
+            $Groups->total_with_tax = $Groups->total_after_discount * (1 + (is_numeric($this->taxes) ? $this->taxes : 0) / 100);
+            $Groups->save();
+            // حفظ الترجمة
+            $Groups->name=$this->name_group;
+            $Groups->notes=$this->notes;
+            $Groups->save();
+            // حفظ العلاقة
+            $Groups->service_group()->detach();
+            foreach ($this->GroupsItems as $GroupsItem) {
+                $Groups->service_group()->attach($GroupsItem['service_id']);
+            }
+
+            $this->ServiceSaved = false;
+            $this->ServiceUpdated = true;
+
+        }else{
+            $Groups = new Group();
+            $total = 0;
+
+            foreach ($this->GroupsItems as $groupItem) {
+                if ($groupItem['is_saved'] && $groupItem['service_price'] && $groupItem['quantity']) {
+                    // الاجمالي قبل الخصم
+                    $total += $groupItem['service_price'] * $groupItem['quantity'];
+                }
+            }
+
+            //الاجمالي قبل الخصم
+            $Groups->Total_before_discount = $total;
+            // قيمة الخصم
+            $Groups->discount_value = $this->discount_value;
+            // الاجمالي بعد الخصم
+            $Groups->Total_after_discount = $total - ((is_numeric($this->discount_value) ? $this->discount_value : 0));
+            //  نسبة الضريبة
+            $Groups->tax_rate = $this->taxes;
+            // الاجمالي + الضريبة
+            $Groups->Total_with_tax = $Groups->Total_after_discount * (1 + (is_numeric($this->taxes) ? $this->taxes : 0) / 100);
+            $Groups->save();
+
+            // حفظ الترجمة
+            $Groups->name=$this->name_group;
+            $Groups->notes=$this->notes;
+            $Groups->save();
+
+            // حفظ العلاقة
+            foreach ($this->GroupsItems as $GroupsItem) {
+                $Groups->service_group()->attach($GroupsItem['service_id'],);
+            }
+
+            $this->reset('GroupsItems', 'name_group', 'notes');
+            $this->discount_value = 0;
+            $this->ServiceSaved = true;
         }
 
-        //الاجمالي قبل الخصم
-        $Groups->Total_before_discount = $total;
-        // قيمة الخصم
-        $Groups->discount_value = $this->discount_value;
-        // الاجمالي بعد الخصم
-        $Groups->Total_after_discount = $total - ((is_numeric($this->discount_value) ? $this->discount_value : 0));
-        //  نسبة الضريبة
-        $Groups->tax_rate = $this->taxes;
-        // الاجمالي + الضريبة
-        $Groups->Total_with_tax = $Groups->Total_after_discount * (1 + (is_numeric($this->taxes) ? $this->taxes : 0) / 100);
-        $Groups->save();
+    }
 
-        // حفظ الترجمة
-        $Groups->name=$this->name_group;
-        $Groups->notes=$this->notes;
-        $Groups->save();
+    public function show_form_add(){
+        $this->show_table = false;
+    }
 
-        // حفظ العلاقة
-        foreach ($this->GroupsItems as $GroupsItem) {
-            $Groups->service_group()->attach($GroupsItem['service_id'],);
-        }
+    public function edit($id)
+    {
+        $this->show_table = false;
+        $this->updateMode = true;
+        $group = Group::where('id',$id)->first();
+        $this->group_id = $id;
 
         $this->reset('GroupsItems', 'name_group', 'notes');
-        $this->discount_value = 0;
-        $this->ServiceSaved = true;
+        $this->name_group= $group->name;
+        $this->notes= $group->notes;
+
+        $this->discount_value = intval($group->discount_value);
+        $this->ServiceSaved = false;
+
+        foreach ($group->service_group as $serviceGroup)
+        {
+            $this->GroupsItems[] = [
+                'service_id' => $serviceGroup->id,
+                'quantity' => 8,
+                'is_saved' => true,
+                'service_name' => $serviceGroup->name,
+                'service_price' => $serviceGroup->price
+            ];
+        }
+    }
+
+    public function delete($id){
+
+        Group::destroy($id);
+        return redirect()->back();
+
     }
 
 }

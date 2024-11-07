@@ -17,6 +17,7 @@ class CreatePivotServicesGroupsTable extends Migration
             $table->id();
             $table->foreignId('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->foreignId('service_id')->references('id')->on('services')->onDelete('cascade');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
