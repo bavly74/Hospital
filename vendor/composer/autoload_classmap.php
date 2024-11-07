@@ -47,6 +47,8 @@ return array(
     'App\\Models\\Group' => $baseDir . '/app/Models/Group.php',
     'App\\Models\\GroupTranslation' => $baseDir . '/app/Models/GroupTranslation.php',
     'App\\Models\\Image' => $baseDir . '/app/Models/Image.php',
+    'App\\Models\\Insurance' => $baseDir . '/app/Models/Insurance.php',
+    'App\\Models\\InsuranceTranslation' => $baseDir . '/app/Models/InsuranceTranslation.php',
     'App\\Models\\Section' => $baseDir . '/app/Models/Section.php',
     'App\\Models\\SectionTranslation' => $baseDir . '/app/Models/SectionTranslation.php',
     'App\\Models\\Service' => $baseDir . '/app/Models/Service.php',

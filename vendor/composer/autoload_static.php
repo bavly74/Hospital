@@ -598,6 +598,8 @@ class ComposerStaticInitc61ff82cbf0142a401a48a8161e1595a
         'App\\Models\\Group' => __DIR__ . '/../..' . '/app/Models/Group.php',
         'App\\Models\\GroupTranslation' => __DIR__ . '/../..' . '/app/Models/GroupTranslation.php',
         'App\\Models\\Image' => __DIR__ . '/../..' . '/app/Models/Image.php',
+        'App\\Models\\Insurance' => __DIR__ . '/../..' . '/app/Models/Insurance.php',
+        'App\\Models\\InsuranceTranslation' => __DIR__ . '/../..' . '/app/Models/InsuranceTranslation.php',
         'App\\Models\\Section' => __DIR__ . '/../..' . '/app/Models/Section.php',
         'App\\Models\\SectionTranslation' => __DIR__ . '/../..' . '/app/Models/SectionTranslation.php',
         'App\\Models\\Service' => __DIR__ . '/../..' . '/app/Models/Service.php',

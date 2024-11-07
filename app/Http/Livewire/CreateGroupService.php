@@ -123,7 +123,7 @@ class CreateGroupService extends Component
             // حفظ العلاقة
             $Groups->service_group()->detach();
             foreach ($this->GroupsItems as $GroupsItem) {
-                $Groups->service_group()->attach($GroupsItem['service_id']);
+                $Groups->service_group()->attach($GroupsItem['service_id'],['quantity'=>$GroupsItem['quantity']]);
             }
 
             $this->ServiceSaved = false;
@@ -159,7 +159,7 @@ class CreateGroupService extends Component
 
             // حفظ العلاقة
             foreach ($this->GroupsItems as $GroupsItem) {
-                $Groups->service_group()->attach($GroupsItem['service_id'],);
+                $Groups->service_group()->attach($GroupsItem['service_id'],['quantity' => $GroupsItem['quantity']]);
             }
 
             $this->reset('GroupsItems', 'name_group', 'notes');
@@ -191,7 +191,7 @@ class CreateGroupService extends Component
         {
             $this->GroupsItems[] = [
                 'service_id' => $serviceGroup->id,
-                'quantity' => 8,
+                'quantity' => $serviceGroup->pivot->quantity,
                 'is_saved' => true,
                 'service_name' => $serviceGroup->name,
                 'service_price' => $serviceGroup->price

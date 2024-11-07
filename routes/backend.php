@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\InsuranceController;
 use App\Http\Controllers\Backend\SectionController;
 use App\Http\Controllers\Backend\DoctorController;
 use App\Http\Controllers\Backend\ServiceController;
@@ -87,7 +88,9 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::view('/group-service/create','livewire.group-service.include-create')->name('group-service.create');
 });
 
-
+    Route::prefix('insurance')->middleware('auth:admin')->group(function () {
+            Route::get('/', [InsuranceController::class,'index'])->name('insurance.index');
+        });
 });
 require __DIR__.'/auth.php';
 
