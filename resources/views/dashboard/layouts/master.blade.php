@@ -18,7 +18,7 @@
 		<!-- /Loader -->
 		@include('dashboard.layouts.main-sidebar')
 		<!-- main-content -->
-		<div class="main-content app-content" id="app">
+		<div class="main-content app-content" >
 			@include('dashboard.layouts.main-header')
 			<!-- container -->
 			<div class="container-fluid">

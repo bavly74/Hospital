@@ -15,7 +15,11 @@ class CreateInsuranceTranslationsTable extends Migration
     {
         Schema::create('insurance_translations', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->string('notes')->nullable();
+            $table->unique(['insurance_id','locale','name']);
+            $table->foreignId('insurance_id')->references('id')->on('insurances')->onDelete('cascade');
         });
     }
 

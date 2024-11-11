@@ -15,6 +15,10 @@ class CreateInsurancesTable extends Migration
     {
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
+            $table->string('insurance_code');
+            $table->string('discount_percentage');
+            $table->string('Company_rate');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
