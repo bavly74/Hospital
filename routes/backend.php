@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\AmbulanceController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\InsuranceController;
 use App\Http\Controllers\Backend\PatientController;
+use App\Http\Controllers\Backend\ReceiptController;
 use App\Http\Controllers\Backend\SectionController;
 use App\Http\Controllers\Backend\DoctorController;
 use App\Http\Controllers\Backend\ServiceController;
@@ -119,10 +120,26 @@ Route::group(
         Route::put('/update', [PatientController::class,'update'])->name('patient.update');
         Route::delete('/destroy', [PatientController::class,'destroy'])->name('patient.destroy');
     });
-
     //end patient
 
 
+    //single invoice
+    Route::middleware(['auth:admin'])->group(function () {
+        Route::view('/single-invoice/create','livewire.single-invoice.index')->name('single-invoice');
+    });
+    //end single invoice
+
+
+    //receipt
+    Route::prefix('receipt')->middleware('auth:admin')->group(function () {
+       Route::get('/', [ReceiptController::class,'index'])->name('receipt.index');
+       Route::get('/create', [ReceiptController::class,'create'])->name('receipt.create');
+       Route::post('/store', [ReceiptController::class,'store'])->name('receipt.store');
+       Route::get('/edit/{id}', [ReceiptController::class,'edit'])->name('receipt.edit');
+       Route::put('/update', [ReceiptController::class,'update'])->name('receipt.update');
+       Route::delete('/destroy', [ReceiptController::class,'destroy'])->name('receipt.destroy');
+    }) ;
+    //end receipt
     });
 require __DIR__.'/auth.php';
 

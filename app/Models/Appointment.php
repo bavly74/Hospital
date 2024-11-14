@@ -13,5 +13,13 @@ class Appointment extends Model
 
     protected $translatedAttributes=['name'];
     protected $fillable=['name'];
+// Model Appointment.php
+
+    public function doctors()
+    {
+        return $this->belongsToMany(Doctor::class, 'appointment_doctor');
+    }
+
+
 
 }

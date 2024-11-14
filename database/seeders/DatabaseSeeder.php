@@ -20,6 +20,10 @@ $this->call([
     SectionTableSeeder::class,
     DoctorTableSeeder::class,
     ImageTableSeeder::class,
+    PatientTableSeeder::class,
+    ServiceTableSeeder::class ,
+    InsuranceTableSeeder::class,
+    AmbulanceTableSeeder::class,
 
 ]);
 
