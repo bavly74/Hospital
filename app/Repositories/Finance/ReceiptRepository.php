@@ -53,6 +53,7 @@ class ReceiptRepository implements ReceiptRepositoryInterface
             return $exception->getMessage();
         }
     }
+    
     public function edit($id){
         $receipt_accounts = ReceiptAccount::findorfail($id);
         $Patients = Patient::all();

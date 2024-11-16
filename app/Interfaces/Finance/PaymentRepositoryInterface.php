@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Finance;
+namespace App\Interfaces\Finance;
 
 interface PaymentRepositoryInterface{
     public function index();
