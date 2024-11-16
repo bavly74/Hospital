@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ReceiptController;
 use App\Http\Controllers\Backend\SectionController;
 use App\Http\Controllers\Backend\DoctorController;
 use App\Http\Controllers\Backend\ServiceController;
+use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\GroupServiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -140,6 +141,21 @@ Route::group(
        Route::delete('/destroy', [ReceiptController::class,'destroy'])->name('receipt.destroy');
     }) ;
     //end receipt
+
+
+    //payment
+    Route::prefix('payment')->middleware('auth:admin')->group(function () {
+        Route::get('/', [PaymentController::class,'index'])->name('payment.index');
+        Route::get('/create', [PaymentController::class,'create'])->name('payment.create');
+        Route::post('/store', [PaymentController::class,'store'])->name('payment.store');
+        Route::get('/edit/{id}', [PaymentController::class,'edit'])->name('payment.edit');
+        Route::put('/update', [PaymentController::class,'update'])->name('payment.update');
+        Route::delete('/destroy', [PaymentController::class,'destroy'])->name('payment.destroy');
+     }) ;
+     //end payment
     });
+
+
+
 require __DIR__.'/auth.php';
 

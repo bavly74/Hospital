@@ -28,7 +28,7 @@ class ReceiptRepository implements ReceiptRepositoryInterface
             $receipt = new ReceiptAccount();
             $receipt->date = date('Y-m-d');
             $receipt->patient_id = $request->patient_id;
-            $receipt->Debit = $request->Debit;
+            $receipt->amount = $request->Debit;
             $receipt->description = $request->description;
             $receipt->save();
 
@@ -65,7 +65,7 @@ class ReceiptRepository implements ReceiptRepositoryInterface
             $receipt = ReceiptAccount::findOrFail($request->id);
             $receipt->date = date('Y-m-d');
             $receipt->patient_id = $request->patient_id;
-            $receipt->Debit = $request->Debit;
+            $receipt->amount = $request->Debit;
             $receipt->description = $request->description;
             $receipt->save();
 
