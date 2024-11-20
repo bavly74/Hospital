@@ -13,5 +13,5 @@ interface PaymentRepositoryInterface{
 
     public function destroy($request);
 
-//    public function show($id);
+    public function show($id);
 }

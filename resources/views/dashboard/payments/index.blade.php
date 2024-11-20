@@ -64,6 +64,8 @@
                                                    <td>
                                                        <a href="{{route('payment.edit',$payment->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
                                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"  data-toggle="modal" href="#delete{{$payment->id}}"><i class="las la-trash"></i></a>
+                                                       <a href="{{route('payment.show',$payment->id)}}" class="btn btn-sm btn-warning"><i class="fas fa-print"></i></a>
+
                                                    </td>
                                                </tr>
                                            @include('dashboard.payments.delete')

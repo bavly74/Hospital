@@ -33,6 +33,9 @@ class ReceiptController extends Controller
     public function update(Request $request){
         return $this->receipt->update($request);
     }
+    public function show($id){
+        return $this->receipt->show($id);
+    }
 
     public function destroy(Request $request){
         return $this->receipt->destroy($request);

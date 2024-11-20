@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\Redirect;
 use App\Models\Doctor;
 use App\Models\FundAccount;
 use App\Models\Patient;
@@ -53,9 +54,9 @@ class SingleInvoices extends Component
 
 
     public function store() {
-        DB::beginTransaction(); // Start a transaction
+//        DB::beginTransaction(); // Start a transaction
 
-        try {
+//        try {
             if ($this->type == 1) { //نقدي
                 if ($this->updateMode) {
 
@@ -63,7 +64,6 @@ class SingleInvoices extends Component
                 } else {
                     $single_invoices = new SingleInvoice();
                 }
-
                 $single_invoices->invoice_date = date('Y-m-d');
                 $single_invoices->patient_id = $this->patient_id;
                 $single_invoices->doctor_id = $this->doctor_id;
@@ -77,13 +77,16 @@ class SingleInvoices extends Component
                 $single_invoices->total_with_tax = $single_invoices->price - $this->discount_value + $single_invoices->tax_value;
                 $single_invoices->type = $this->type;
 
-                if (!$single_invoices->patient_id || !$single_invoices->doctor_id || !$single_invoices->section_id) {
-                    throw new \Exception('Required fields missing for SingleInvoice.');
-                }
+                $single_invoices->save();
 
-                if (!$single_invoices->save()) {
-                    throw new \Exception('Failed to save SingleInvoice.');
-                }
+
+//                if (!$single_invoices->patient_id || !$single_invoices->doctor_id || !$single_invoices->section_id) {
+//                    throw new \Exception('Required fields missing for SingleInvoice.');
+//                }
+//
+//                if (!$single_invoices->save()) {
+//                    throw new \Exception('Failed to save SingleInvoice.');
+//                }
 
                 if ($this->updateMode) {
                     $fund_accounts = FundAccount::where('single_invoice_id', $this->single_invoice_id)->first();
@@ -96,13 +99,15 @@ class SingleInvoices extends Component
                 $fund_accounts->Debit = $single_invoices->total_with_tax;
                 $fund_accounts->credit = 0.00;
 
-                if (!$fund_accounts->single_invoice_id || !$fund_accounts->Debit) {
-                    throw new \Exception('Required fields missing for FundAccount.');
-                }
+                $fund_accounts->save();
 
-                if (!$fund_accounts->save()) {
-                    throw new \Exception('Failed to save FundAccount.');
-                }
+//                if (!$fund_accounts->single_invoice_id || !$fund_accounts->Debit) {
+//                    throw new \Exception('Required fields missing for FundAccount.');
+//                }
+//
+//                if (!$fund_accounts->save()) {
+//                    throw new \Exception('Failed to save FundAccount.');
+//                }
 
                 if ($this->updateMode) {
                     $this->InvoiceUpdated = true;
@@ -157,15 +162,15 @@ class SingleInvoices extends Component
 
                 $this->showTable = true;
 
-                DB::commit();
+//                DB::commit();
             }
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-            \Log::error('Error during invoice save: ' . $e->getMessage());
-
-            return redirect()->back()->withErrors(['error' => 'Error during invoice save: ' . $e->getMessage()]);
-        }
+//        } catch (\Exception $e) {
+//            DB::rollback();
+//            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+//            \Log::error('Error during invoice save: ' . $e->getMessage());
+//
+//            return redirect()->back()->withErrors(['error' => 'Error during invoice save: ' . $e->getMessage()]);
+//        }
     }
 
 
@@ -186,6 +191,22 @@ class SingleInvoices extends Component
         $this->service_price = $single_invoice->price;
         $this->discount_value = $single_invoice->discount_value;
         $this->type = $single_invoice->type;
+    }
+
+    public function show($id)
+    {
+        $single_invoice=SingleInvoice::findorFail($id);
+        return Redirect::route('single-invoice.print',[
+            'invoice_date' => $single_invoice->invoice_date,
+            'doctor_id' => $single_invoice->Doctor->name,
+            'section_id' => $single_invoice->Section->name,
+            'Service_id' => $single_invoice->Service->name,
+            'type' => $single_invoice->type,
+            'price' => $single_invoice->price,
+            'discount_value' => $single_invoice->discount_value,
+            'tax_rate' => $single_invoice->tax_rate,
+            'total_with_tax' => $single_invoice->total_with_tax,
+        ]);
     }
 
     public function delete($id)

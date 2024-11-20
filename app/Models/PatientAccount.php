@@ -14,4 +14,20 @@ class PatientAccount extends Model
         return $this->belongsTo(Patient::class);
 
     }
+
+    public function single_invoice ()
+    {
+        return $this->belongsTo(SingleInvoice::class,'single_invoice_id');
+    }
+
+    public function ReceiptAccount()
+    {
+
+        return $this->belongsTo(ReceiptAccount::class,'receipt_id');
+    }
+
+    public function PaymentAccount()
+    {
+        return $this->belongsTo(PaymentAccount::class,'patient_id');
+    }
 }

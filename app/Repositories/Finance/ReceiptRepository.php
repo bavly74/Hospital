@@ -53,11 +53,11 @@ class ReceiptRepository implements ReceiptRepositoryInterface
             return $exception->getMessage();
         }
     }
-    
+
     public function edit($id){
         $receipt_accounts = ReceiptAccount::findorfail($id);
         $Patients = Patient::all();
-        return view('dashboard.receipts.edit', compact('receipt'));
+        return view('dashboard.receipts.edit', compact('receipt_accounts'));
     }
 
     public function update($request){
@@ -91,6 +91,11 @@ class ReceiptRepository implements ReceiptRepositoryInterface
             return $exception->getMessage();
         }
 
+    }
+
+    public function show($id){
+        $receipt = ReceiptAccount::findOrFail($id);
+        return view('dashboard.receipts.print', compact('receipt'));
     }
 
     public function destroy($request){

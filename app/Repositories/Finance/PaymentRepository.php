@@ -33,7 +33,7 @@ class PaymentRepository implements PaymentRepositoryInterface
             $patient->date = date('Y-m-d') ;
             $patient->payment_id = $payment->id ;
             $patient->patient_id = $request->patient_id ;
-            $patient->credit = $request->credit ;
+            $patient->Debit  = $request->credit ;
             $patient->save();
 
             $fund = new FundAccount() ;
@@ -97,6 +97,11 @@ class PaymentRepository implements PaymentRepositoryInterface
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+
+    public function show($id){
+        $payment_account=PaymentAccount::findOrfail($id);
+        return view('dashboard.payments.print',compact('payment_account'));
     }
 
     public function destroy($request)

@@ -36,6 +36,8 @@
                 <td>
                     <button wire:click="edit({{ $single_invoice->id }})" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_invoice" wire:click="delete({{ $single_invoice->id }})" ><i class="fa fa-trash"></i></button>
+                    <button wire:click="show({{ $single_invoice->id }})" class="btn btn-warning btn-sm"><i class="fa fa-print"></i></button>
+
                 </td>
             </tr>
         @include('livewire.single-invoice.delete')

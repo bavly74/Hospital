@@ -33,7 +33,9 @@ class PaymentController extends Controller
         return $this->payment->update($request);
 
     }
-
+    public function show($id){
+        return $this->payment->show($id);
+    }
     public function destroy(Request $request){
         return $this->payment->destroy($request);
     }

@@ -118,6 +118,7 @@ Route::group(
         Route::get('/create', [PatientController::class,'create'])->name('patient.create');
         Route::post('/store', [PatientController::class,'store'])->name('patient.store');
         Route::get('/edit/{id}', [PatientController::class,'edit'])->name('patient.edit');
+        Route::get('/show/{id}', [PatientController::class,'show'])->name('patient.show');
         Route::put('/update', [PatientController::class,'update'])->name('patient.update');
         Route::delete('/destroy', [PatientController::class,'destroy'])->name('patient.destroy');
     });
@@ -127,8 +128,19 @@ Route::group(
     //single invoice
     Route::middleware(['auth:admin'])->group(function () {
         Route::view('/single-invoice/create','livewire.single-invoice.index')->name('single-invoice');
+        Route::view('/single-invoice/print','livewire.single-invoice.print')->name('single-invoice.print');
+
     });
     //end single invoice
+
+
+    //group invoice
+    Route::middleware(['auth:admin'])->group(function () {
+        Route::view('/group-invoice/create','livewire.group-invoice.index')->name('group-invoice');
+        Route::view('/group-invoice/print','livewire.group-invoice.print')->name('group-invoice.print');
+
+    });
+    //end group invoice
 
 
     //receipt
@@ -137,7 +149,8 @@ Route::group(
        Route::get('/create', [ReceiptController::class,'create'])->name('receipt.create');
        Route::post('/store', [ReceiptController::class,'store'])->name('receipt.store');
        Route::get('/edit/{id}', [ReceiptController::class,'edit'])->name('receipt.edit');
-       Route::put('/update', [ReceiptController::class,'update'])->name('receipt.update');
+        Route::get('/show/{id}', [ReceiptController::class,'show'])->name('receipt.show');
+        Route::put('/update', [ReceiptController::class,'update'])->name('receipt.update');
        Route::delete('/destroy', [ReceiptController::class,'destroy'])->name('receipt.destroy');
     }) ;
     //end receipt
@@ -150,6 +163,8 @@ Route::group(
         Route::post('/store', [PaymentController::class,'store'])->name('payment.store');
         Route::get('/edit/{id}', [PaymentController::class,'edit'])->name('payment.edit');
         Route::put('/update', [PaymentController::class,'update'])->name('payment.update');
+        Route::get('/show/{id}', [PaymentController::class,'show'])->name('payment.show');
+
         Route::delete('/destroy', [PaymentController::class,'destroy'])->name('payment.destroy');
      }) ;
      //end payment

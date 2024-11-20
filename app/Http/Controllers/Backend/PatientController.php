@@ -28,7 +28,9 @@ class PatientController extends Controller
         return $this->patient->store($request);
     }
 
-//    public function show($id){}
+    public function show($id){
+        return $this->patient->show($id);
+    }
 
     public function edit($id){
         return $this->patient->edit($id);
