@@ -9,14 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param  string|null  ...$guards
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
+
     public function handle($request, Closure $next){
 
         if (auth('web')->check()){
@@ -26,6 +19,10 @@ class RedirectIfAuthenticated
         if (auth('admin')->check()){
             return redirect(RouteServiceProvider::ADMIN);
         }
+        if (auth('doctor')->check()){
+            return redirect(RouteServiceProvider::DOCTOR);
+        }
+
         return $next($request);
     }
 }

@@ -49,7 +49,7 @@
 												</ul>
 											</div>
 										@endif
-								
+
 
                                             <div class="form-group">
                                                 <label
@@ -59,14 +59,18 @@
                                                         {{ trans('Dashboard/login_trans.Choose_list') }}</option>
                                                     <option value="user">{{ trans('Dashboard/login_trans.user') }}
                                                     </option>
+
                                                     <option value="admin">{{ trans('Dashboard/login_trans.admin') }}
                                                     </option>
+
+                                                    <option value="doctor">الدخول كدكتور
+                                                    </option>
+
 
                                                 </select>
                                             </div>
 
                                             {{-- form user --}}
-
                                             <div class="panel" id="user">
                                                 <h5 class="font-weight-semibold mb-4">User form</h5>
                                                 <form method="POST" action="{{ route('login.user') }}">
@@ -116,6 +120,42 @@
                                                         <label>Password</label> <input class="form-control"
                                                             placeholder="Enter your password" type="password"
                                                             name="password" required autocomplete="current-password">
+                                                    </div><button class="btn btn-main-primary btn-block">Sign In</button>
+                                                    <div class="row row-xs">
+                                                        <div class="col-sm-6">
+                                                            <button class="btn btn-block"><i class="fab fa-facebook-f"></i>
+                                                                Signup with Facebook</button>
+                                                        </div>
+                                                        <div class="col-sm-6 mg-t-10 mg-sm-t-0">
+                                                            <button class="btn btn-info btn-block"><i
+                                                                    class="fab fa-twitter"></i> Signup with Twitter</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="main-signin-footer mt-5">
+                                                    <p><a href="">Forgot password?</a></p>
+                                                    <p>Don't have an account? <a
+                                                            href="{{ url('/' . ($page = 'signup')) }}">Create an Account</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+
+                                            {{-- form doctor --}}
+                                            <div class="panel" id="doctor">
+                                                <h5 class="font-weight-semibold mb-4">Admin form</h5>
+
+                                                <form method="POST" action="{{ route('login.doctor') }}">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label>Email</label> <input class="form-control"
+                                                                                    placeholder="Enter your email" type="email" name="email"
+                                                                                    :value="old('email')" required autofocus>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Password</label> <input class="form-control"
+                                                                                       placeholder="Enter your password" type="password"
+                                                                                       name="password" required autocomplete="current-password">
                                                     </div><button class="btn btn-main-primary btn-block">Sign In</button>
                                                     <div class="row row-xs">
                                                         <div class="col-sm-6">

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Translatable;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-class Doctor extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Doctor extends Authenticatable
 {
     use Translatable;
     use HasFactory;

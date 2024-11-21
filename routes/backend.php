@@ -45,6 +45,13 @@ Route::group(
     //End Dashboard admin//
 
 
+    //Dashboard doctor//
+    Route::get('/dashboard/doctor', function () {
+        return view('dashboard.doctor-admin.dashboard');
+    })->middleware(['auth:doctor'])->name('dashboard.doctor');
+    //End Dashboard doctor//
+
+
     //sections
     Route::middleware(['auth:admin'])->group(function () {
                 Route::get('/section', [SectionController::class,'index'])->name('section.index');

@@ -35,7 +35,7 @@ class AdminAuth extends Controller
         return redirect()->back()->withErrors(["name"=>'ERROR']);
 
 
-      
+
     }
 
 
