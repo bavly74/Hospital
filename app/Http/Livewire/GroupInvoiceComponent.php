@@ -5,15 +5,18 @@ use App\Models\Doctor;
 use App\Models\FundAccount;
 use App\Models\Group;
 use App\Models\GroupInvoice;
+use App\Models\Invoice;
 use App\Models\Patient;
 use App\Models\PatientAccount;
 use App\Models\SectionTranslation;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Support\Facades\Redirect;
 
 class GroupInvoiceComponent extends Component
 {
     public $show_table = true ,
+        $catchError,
         $patient_id ,
         $doctor_id ,
         $section_id ,
@@ -30,7 +33,7 @@ class GroupInvoiceComponent extends Component
     public function render()
     {
         return view('livewire.group-invoice.group-invoice-component',[
-            'group_invoices'=>GroupInvoice::all(),
+            'group_invoices'=>Invoice::with('Service','Patient','Doctor','Section')->where('invoice_type',2)->get(),
             'Patients'=>Patient::all(),
             'Doctors'=>Doctor::all(),
             'Groups'=>Group::all() ,
@@ -52,43 +55,53 @@ class GroupInvoiceComponent extends Component
 
     public function store()
     {
-
         if($this->type==1){
             DB::beginTransaction();
             try {
                 if($this->updateMode==true){
-                    $group_invoice = GroupInvoice::findOrFail($this->group_invoice_id);
-                    $fund_accounts = FundAccount::where('group_invoice_id',$this->group_invoice_id)->first();
+                    $group_invoices = Invoice::findOrFail($this->group_invoice_id);
+                    $fund_accounts = FundAccount::where('invoice_id',$this->group_invoice_id)->first();
 
                 } else {
-                    $group_invoice = new GroupInvoice();
+                    $group_invoices = new Invoice();
                     $fund_accounts = new FundAccount();
                 }
-                $group_invoice->invoice_date = date('Y-m-d');
-                $group_invoice->patient_id = $this->patient_id;
-                $group_invoice->doctor_id = $this->doctor_id;
-                $group_invoice->section_id =  SectionTranslation::where('name',$this->section_id)->first()->id;
-                $group_invoice->group_id = $this->Group_id;
-                $group_invoice->price  = $this->price;
-                $group_invoice->discount_value = $this->discount_value;
-                $group_invoice->tax_rate = $this->tax_rate;
-                $group_invoice->tax_value = ($this->price - $this->discount_value) * ((is_numeric($this->tax_rate) ? $this->tax_rate : 0) / 100);
-                $group_invoice->total_with_tax = $group_invoice->price -  $group_invoice->discount_value + $group_invoice->tax_value;
-                $group_invoice->type = $this->type;
-                $group_invoice->save();
+                $group_invoices->invoice_type = 2;
+                $group_invoices->invoice_date = date('Y-m-d');
+                $group_invoices->patient_id = $this->patient_id;
+                $group_invoices->doctor_id = $this->doctor_id;
+                $group_invoices->section_id = DB::table('section_translations')->where('name', $this->section_id)->first()->section_id;
+                $group_invoices->Group_id = $this->Group_id;
+                $group_invoices->price = $this->price;
+                $group_invoices->discount_value = $this->discount_value;
+                $group_invoices->tax_rate = $this->tax_rate;
+                // قيمة الضريبة = السعر - الخصم * نسبة الضريبة /100
+                $group_invoices->tax_value = ($this->price -$this->discount_value) * ((is_numeric($this->tax_rate) ? $this->tax_rate : 0) / 100);
+                // الاجمالي شامل الضريبة  = السعر - الخصم + قيمة الضريبة
+                $group_invoices->total_with_tax = $group_invoices->price -  $group_invoices->discount_value + $group_invoices->tax_value;
+                $group_invoices->type = $this->type;
+                $group_invoices->save();
 
                 $fund_accounts->date = date('Y-m-d');
-                $fund_accounts->group_invoice_id = $group_invoice->id;
-                $fund_accounts->Debit = $group_invoice->total_with_tax;
+                $fund_accounts->invoice_id = $group_invoices->id;
+                $fund_accounts->Debit = $group_invoices->total_with_tax;
                 $fund_accounts->credit = 0.00;
                 $fund_accounts->save();
-                $this->InvoiceSaved =true;
+
+                if($this->updateMode==true){
+                    $this->InvoiceUpdated =true;
+
+                }else{
+                    $this->InvoiceSaved =true;
+
+                }
                 $this->show_table =true;
+
                 DB::commit();
 
             }catch (\Exception $e){
                 DB::rollback();
-                return $e->getMessage();
+                $this->catchError = $e->getMessage();
             }
 
 //            $this->rest();
@@ -96,35 +109,44 @@ class GroupInvoiceComponent extends Component
             DB::beginTransaction();
             try {
                 if($this->updateMode==true){
-                    $group_invoice = GroupInvoice::findOrFail($this->group_invoice_id);
-                    $patient_accounts = PatientAccount::where('group_invoice_id',$this->group_invoice_id)->first();
+                    $group_invoices = Invoice::findOrFail($this->group_invoice_id);
+                    $patient_accounts = PatientAccount::where('invoice_id',$this->group_invoice_id)->first();
 
                 } else {
-                    $group_invoice = new GroupInvoice();
+                    $group_invoices = new Invoice();
                     $patient_accounts = new PatientAccount();
 
                 }
-                $group_invoice->invoice_date = date('Y-m-d');
-                $group_invoice->patient_id = $this->patient_id;
-                $group_invoice->doctor_id = $this->doctor_id;
-                $group_invoice->section_id = SectionTranslation::where('name',$this->section_id)->first()->id;
-                $group_invoice->group_id = $this->Group_id;
-                $group_invoice->price  = $this->price;
-                $group_invoice->discount_value = $this->discount_value;
-                $group_invoice->tax_rate = $this->tax_rate;
-                $group_invoice->tax_value = ($this->price - $this->discount_value) * ((is_numeric($this->tax_rate) ? $this->tax_rate : 0) / 100);
-                $group_invoice->total_with_tax = $group_invoice->price -  $group_invoice->discount_value + $group_invoice->tax_value;
-                $group_invoice->type = $this->type;
-                $group_invoice->save();
+                $group_invoices->invoice_type = 2;
+                $group_invoices->invoice_date = date('Y-m-d');
+                $group_invoices->patient_id = $this->patient_id;
+                $group_invoices->doctor_id = $this->doctor_id;
+                $group_invoices->section_id = DB::table('section_translations')->where('name', $this->section_id)->first()->section_id;
+                $group_invoices->Group_id = $this->Group_id;
+                $group_invoices->price = $this->price;
+                $group_invoices->discount_value = $this->discount_value;
+                $group_invoices->tax_rate = $this->tax_rate;
+                // قيمة الضريبة = السعر - الخصم * نسبة الضريبة /100
+                $group_invoices->tax_value = ($this->price - $this->discount_value) * ((is_numeric($this->tax_rate) ? $this->tax_rate : 0) / 100);
+                // الاجمالي شامل الضريبة  = السعر - الخصم + قيمة الضريبة
+                $group_invoices->total_with_tax = $group_invoices->price -  $group_invoices->discount_value + $group_invoices->tax_value;
+                $group_invoices->type = $this->type;
+                $group_invoices->save();
 
 
                 $patient_accounts->date = date('Y-m-d');
-                $patient_accounts->group_invoice_id = $group_invoice->id;
-                $patient_accounts->patient_id = $group_invoice->patient_id;
-                $patient_accounts->Debit = $group_invoice->total_with_tax;
+                $patient_accounts->invoice_id = $group_invoices->id;
+                $patient_accounts->patient_id = $group_invoices->patient_id;
+                $patient_accounts->Debit = $group_invoices->total_with_tax;
                 $patient_accounts->credit = 0.00;
                 $patient_accounts->save();
-                $this->InvoiceUpdated =true;
+
+                if($this->updateMode==true){
+                    $this->InvoiceUpdated =true;
+                } else {
+                    $this->InvoiceSaved =true;
+                }
+
                 $this->show_table =true;
 
                DB::commit();
@@ -145,7 +167,7 @@ class GroupInvoiceComponent extends Component
         $this->updateMode = true;
 
         $this->show_table = false;
-        $group_invoice = GroupInvoice::with('Section')->findorfail($id);
+        $group_invoice = Invoice::with('Section')->findorfail($id);
         $this->group_invoice_id = $group_invoice->id;
         $this->patient_id = $group_invoice->patient_id;
         $this->doctor_id = $group_invoice->doctor_id;
@@ -164,11 +186,11 @@ class GroupInvoiceComponent extends Component
     }
 
     public function destroy(){
-        GroupInvoice::destroy($this->group_invoice_id);
+        Invoice::destroy($this->group_invoice_id);
         return redirect()->route('group-invoice');
     }
     public function print($id){
-        $single_invoice = GroupInvoice::findorfail($id);
+        $single_invoice = Invoice::findorfail($id);
         return Redirect::route('group-invoice.print',[
             'invoice_date' => $single_invoice->invoice_date,
             'doctor_id' => $single_invoice->Doctor->name,

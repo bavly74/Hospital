@@ -85,7 +85,7 @@ class PatientRepository implements PatientRepositoryInterface
         $Patient  = Patient::findOrFail($id);
         $invoices = SingleInvoice::where('patient_id',$id)->get();
         $receipt_accounts =ReceiptAccount::where('patient_id',$id)->get();
-        $Patient_accounts = PatientAccount::orWhereNotNull('single_invoice_id')
+        $Patient_accounts = PatientAccount::orWhereNotNull('invoice_id')
             ->orWhereNotNull('receipt_id')
             ->orWhereNotNull('Payment_id')
             ->where('patient_id', $id)

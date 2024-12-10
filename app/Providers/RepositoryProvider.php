@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Providers;
+use App\Interfaces\DoctorDashboard\InvoiceInterface;
 use App\Interfaces\Finance\PaymentRepositoryInterface;
+use App\Repositories\DoctorDashboard\InvoiceRepository;
 use App\Repositories\Finance\PaymentRepository;
 
 use App\Interfaces\Finance\ReceiptRepositoryInterface;
@@ -39,6 +41,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(PatientRepositoryInterface::class, PatientRepository::class);
         $this->app->bind(ReceiptRepositoryInterface::class, ReceiptRepository::class);
         $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
+        $this->app->bind(InvoiceInterface::class, InvoiceRepository::class);
 
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Doctor;
 use App\Models\FundAccount;
@@ -24,21 +25,24 @@ class SingleInvoices extends Component
         $doctor_id ,
         $patient_id ,
         $type ,
-        $service_id ,
+        $section_id,
         $service_price ,
         $discount_value =0 ,
         $updateMode=false,
         $single_invoice_id ,
+        $service_id,
+//        $price ,
         $tax_rate=15 ;
 
     public function render()
     {
+
         return view('livewire.single-invoice.single-invoice',[
             'patients'=>Patient::all(),
             'Doctors'=>Doctor::all(),
             'services'=>Service::all(),
             'total'=> ( $this->service_price - $this->discount_value ) + ($this->tax_rate * ($this->service_price - $this->discount_value )/100 ),
-            'single_invoices'=> SingleInvoice::all(),
+            'single_invoices'=> Invoice::with('Service','Patient','Doctor','Section')->where('invoice_type',1)->get(),
         ]);
     }
     public function get_section(){
@@ -52,7 +56,6 @@ class SingleInvoices extends Component
 
     }
 
-
     public function store() {
 //        DB::beginTransaction(); // Start a transaction
 
@@ -60,10 +63,15 @@ class SingleInvoices extends Component
             if ($this->type == 1) { //نقدي
                 if ($this->updateMode) {
 
-                    $single_invoices = SingleInvoice::findOrFail($this->single_invoice_id);
+                    $single_invoices = Invoice::findOrFail($this->single_invoice_id);
+                    $fund_accounts = FundAccount::where('invoice_id',$this->single_invoice_id)->first();
+
                 } else {
-                    $single_invoices = new SingleInvoice();
+                    $single_invoices = new Invoice();
+                    $fund_accounts = new FundAccount();
+
                 }
+                $single_invoices->invoice_type = 1;
                 $single_invoices->invoice_date = date('Y-m-d');
                 $single_invoices->patient_id = $this->patient_id;
                 $single_invoices->doctor_id = $this->doctor_id;
@@ -72,12 +80,30 @@ class SingleInvoices extends Component
                 $single_invoices->price = $this->service_price;
                 $single_invoices->discount_value = $this->discount_value;
                 $single_invoices->tax_rate = $this->tax_rate;
-
-                $single_invoices->tax_value = ($this->service_price - $this->discount_value) * ((is_numeric($this->tax_rate) ? $this->tax_rate : 0) / 100);
-                $single_invoices->total_with_tax = $single_invoices->price - $this->discount_value + $single_invoices->tax_value;
+                // قيمة الضريبة = السعر - الخصم * نسبة الضريبة /100
+                $single_invoices->tax_value = ($this->service_price -$this->discount_value) * ((is_numeric($this->tax_rate) ? $this->tax_rate : 0) / 100);
+                // الاجمالي شامل الضريبة  = السعر - الخصم + قيمة الضريبة
+                $single_invoices->total_with_tax = $single_invoices->price -  $single_invoices->discount_value + $single_invoices->tax_value;
                 $single_invoices->type = $this->type;
-
                 $single_invoices->save();
+
+
+                $fund_accounts->date = date('Y-m-d');
+                $fund_accounts->invoice_id = $single_invoices->id;
+                $fund_accounts->Debit = $single_invoices->total_with_tax;
+                $fund_accounts->credit = 0.00;
+                $fund_accounts->save();
+
+
+                if ($this->updateMode) {
+                    $this->InvoiceUpdated = true;
+                } else {
+                    $this->InvoiceSaved = true;
+                }
+
+                $this->showTable = true;
+
+
 
 
 //                if (!$single_invoices->patient_id || !$single_invoices->doctor_id || !$single_invoices->section_id) {
@@ -88,42 +114,19 @@ class SingleInvoices extends Component
 //                    throw new \Exception('Failed to save SingleInvoice.');
 //                }
 
-                if ($this->updateMode) {
-                    $fund_accounts = FundAccount::where('single_invoice_id', $this->single_invoice_id)->first();
-                } else { //اجل
-                    $fund_accounts = new FundAccount();
-                }
-
-                $fund_accounts->date = date('Y-m-d');
-                $fund_accounts->single_invoice_id = $single_invoices->id;
-                $fund_accounts->Debit = $single_invoices->total_with_tax;
-                $fund_accounts->credit = 0.00;
-
-                $fund_accounts->save();
-
-//                if (!$fund_accounts->single_invoice_id || !$fund_accounts->Debit) {
-//                    throw new \Exception('Required fields missing for FundAccount.');
-//                }
-//
-//                if (!$fund_accounts->save()) {
-//                    throw new \Exception('Failed to save FundAccount.');
-//                }
-
-                if ($this->updateMode) {
-                    $this->InvoiceUpdated = true;
-                } else {
-                    $this->InvoiceSaved = true;
-                }
-
-                $this->showTable = true;
 
             }else {
                 if ($this->updateMode) {
-                    $single_invoices = SingleInvoice::findOrFail($this->single_invoice_id);
+                    $single_invoices = Invoice::findOrFail($this->single_invoice_id);
+                    $patient_accounts = PatientAccount::where('single_invoice_id',$this->single_invoice_id)->first();
+
                 }else{
-                    $single_invoices=new SingleInvoice();
+                    $single_invoices=new Invoice();
+                    $patient_accounts = new PatientAccount();
+
                 }
 
+                $single_invoices->invoice_type = 1;
                 $single_invoices->invoice_date = date('Y-m-d');
                 $single_invoices->patient_id = $this->patient_id;
                 $single_invoices->doctor_id = $this->doctor_id;
@@ -132,22 +135,16 @@ class SingleInvoices extends Component
                 $single_invoices->price = $this->service_price;
                 $single_invoices->discount_value = $this->discount_value;
                 $single_invoices->tax_rate = $this->tax_rate;
-
-                $single_invoices->tax_value = ($this->service_price - $this->discount_value) * ((is_numeric($this->tax_rate) ? $this->tax_rate : 0) / 100);
-                $single_invoices->total_with_tax = $single_invoices->price - $this->discount_value + $single_invoices->tax_value;
+                // قيمة الضريبة = السعر - الخصم * نسبة الضريبة /100
+                $single_invoices->tax_value = ($this->service_price -$this->discount_value) * ((is_numeric($this->tax_rate) ? $this->tax_rate : 0) / 100);
+                // الاجمالي شامل الضريبة  = السعر - الخصم + قيمة الضريبة
+                $single_invoices->total_with_tax = $single_invoices->price -  $single_invoices->discount_value + $single_invoices->tax_value;
                 $single_invoices->type = $this->type;
-
                 $single_invoices->save();
 
-                if($this->updateMode) {
-                    $patient_accounts = PatientAccount::where('single_invoice_id',$this->single_invoice_id)->first();
-
-                }else{
-                    $patient_accounts = new PatientAccount();
-                }
 
                 $patient_accounts->date = date('Y-m-d');
-                $patient_accounts->single_invoice_id = $single_invoices->id;
+                $patient_accounts->invoice_id = $single_invoices->id;
                 $patient_accounts->patient_id = $single_invoices->patient_id;
                 $patient_accounts->Debit = $single_invoices->total_with_tax;
                 $patient_accounts->credit = 0.00;
@@ -171,6 +168,7 @@ class SingleInvoices extends Component
 //
 //            return redirect()->back()->withErrors(['error' => 'Error during invoice save: ' . $e->getMessage()]);
 //        }
+
     }
 
 
@@ -182,7 +180,7 @@ class SingleInvoices extends Component
     public function edit($id){
         $this->updateMode =true;
         $this->showTable =false;
-        $single_invoice = SingleInvoice::findorfail($id);
+        $single_invoice = Invoice::findorfail($id);
         $this->single_invoice_id = $single_invoice->id;
         $this->patient_id = $single_invoice->patient_id;
         $this->doctor_id = $single_invoice->doctor_id;
@@ -195,7 +193,7 @@ class SingleInvoices extends Component
 
     public function show($id)
     {
-        $single_invoice=SingleInvoice::findorFail($id);
+        $single_invoice=Invoice::findorFail($id);
         return Redirect::route('single-invoice.print',[
             'invoice_date' => $single_invoice->invoice_date,
             'doctor_id' => $single_invoice->Doctor->name,
@@ -216,7 +214,7 @@ class SingleInvoices extends Component
     }
 
     public function destroy(){
-        SingleInvoice::destroy($this->single_invoice_id);
+        Invoice::destroy($this->single_invoice_id);
         return redirect()->back();
     }
 

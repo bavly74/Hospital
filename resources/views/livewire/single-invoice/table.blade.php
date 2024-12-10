@@ -19,6 +19,8 @@
         </tr>
         </thead>
         <tbody>
+{{--        {{$single_invoices}}--}}
+
         @foreach ($single_invoices as $single_invoice)
             <tr>
                 <td>{{ $loop->iteration}}</td>
