@@ -1,9 +1,15 @@
 <?php
 
 namespace App\Providers;
+use App\Interfaces\DoctorDashboard\DiagnosticInterface;
 use App\Interfaces\DoctorDashboard\InvoiceInterface;
+use App\Interfaces\DoctorDashboard\LabInterface;
+use App\Interfaces\DoctorDashboard\RaysInterface;
 use App\Interfaces\Finance\PaymentRepositoryInterface;
+use App\Repositories\DoctorDashboard\DiagnosticRepository;
 use App\Repositories\DoctorDashboard\InvoiceRepository;
+use App\Repositories\DoctorDashboard\LabRepository;
+use App\Repositories\DoctorDashboard\RaysRepository;
 use App\Repositories\Finance\PaymentRepository;
 
 use App\Interfaces\Finance\ReceiptRepositoryInterface;
@@ -33,6 +39,7 @@ class RepositoryProvider extends ServiceProvider
      */
     public function register()
     {
+        //Admin
         $this->app->bind(SectionRepositoryInterface::class, SectionRepository::class);
         $this->app->bind(DoctorRepositoryInterface::class, DoctorRepository::class);
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
@@ -42,6 +49,12 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(ReceiptRepositoryInterface::class, ReceiptRepository::class);
         $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
         $this->app->bind(InvoiceInterface::class, InvoiceRepository::class);
+
+        //Doctor
+        $this->app->bind(DiagnosticInterface::class, DiagnosticRepository::class);
+        $this->app->bind(RaysInterface::class, RaysRepository::class);
+        $this->app->bind(LabInterface::class, LabRepository::class);
+
 
     }
 

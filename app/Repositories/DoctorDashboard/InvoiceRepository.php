@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class InvoiceRepository implements InvoiceInterface
 {
 
-    public function index(){
-        $invoices=Invoice::with('patient')->where('doctor_id',Auth::user()->id)->get();
+    public function index($status){
+
+        $invoices=Invoice::with('patient')->where('doctor_id',Auth::user()->id)->where('invoice_status',$status)->get();
         return view('dashboard.doctor-admin.invoices.index',compact('invoices'));
     }
 
@@ -31,9 +32,7 @@ class InvoiceRepository implements InvoiceInterface
     public function edit($id){}
 
 
-    public function update($request){
-
-    }
+    public function update($request){ }
 
 
     public function destroy($id){
