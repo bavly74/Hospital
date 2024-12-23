@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\AmbulanceController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\InsuranceController;
 use App\Http\Controllers\Backend\PatientController;
+use App\Http\Controllers\Backend\RayEmployeeController;
 use App\Http\Controllers\Backend\ReceiptController;
 use App\Http\Controllers\Backend\SectionController;
 use App\Http\Controllers\Backend\DoctorController;
@@ -120,8 +121,8 @@ Route::group(
 
 
     //patient
-    Route::prefix('patient')->middleware('auth:admin')->group(function () {
-        Route::get('/', [PatientController::class,'index'])->name('patient.index');
+    Route::prefix('patients')->middleware('auth:admin')->group(function () {
+        Route::get('/', [PatientController::class,'index'])->name('patients.index');
         Route::get('/create', [PatientController::class,'create'])->name('patient.create');
         Route::post('/store', [PatientController::class,'store'])->name('patient.store');
         Route::get('/edit/{id}', [PatientController::class,'edit'])->name('patient.edit');
@@ -175,6 +176,16 @@ Route::group(
         Route::delete('/destroy', [PaymentController::class,'destroy'])->name('payment.destroy');
      }) ;
      //end payment
+
+
+    //Rays employee
+    Route::prefix('rays-employees')->middleware('auth:admin')->group(function () {
+        Route::get('/', [RayEmployeeController::class,'index'])->name('rays-employees.index');
+        Route::post('/store', [RayEmployeeController::class,'store'])->name('rays-employees.store');
+        Route::post('/update/{id}', [RayEmployeeController::class,'update'])->name('rays-employees.update');
+        Route::post('/destroy/{id}', [RayEmployeeController::class,'destroy'])->name('rays-employees.destroy');
+    }) ;
+    //end Rays employee
     });
 
 

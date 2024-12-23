@@ -15,13 +15,7 @@ class ServiceTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0;$i<30;$i++){
-            Service::create([
-                'price'=>rand(100,5000),
-                'description'=>Str::random(50),
-                'name'=>Str::random(10),
-                'status'=>1
-            ]);
-        }
+        \App\Models\Service::factory()->count(10)->create();
+
     }
 }

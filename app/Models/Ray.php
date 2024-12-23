@@ -16,4 +16,9 @@ class Ray extends Model
     public function doctor(){
         return $this->belongsTo(Doctor::class);
     }
+
+    public function employee(){
+        return $this->belongsTo(RayEmployee::class);
+    }
+
 }

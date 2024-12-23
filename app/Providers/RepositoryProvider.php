@@ -6,6 +6,7 @@ use App\Interfaces\DoctorDashboard\InvoiceInterface;
 use App\Interfaces\DoctorDashboard\LabInterface;
 use App\Interfaces\DoctorDashboard\RaysInterface;
 use App\Interfaces\Finance\PaymentRepositoryInterface;
+use App\Interfaces\RayEmployee\RayEmployeeInterface;
 use App\Repositories\DoctorDashboard\DiagnosticRepository;
 use App\Repositories\DoctorDashboard\InvoiceRepository;
 use App\Repositories\DoctorDashboard\LabRepository;
@@ -22,11 +23,15 @@ use App\Repositories\Ambulance\AmbulanceRepository;
 use App\Repositories\Doctors\DoctorRepository;
 use App\Repositories\Insurance\InsuranceRepository;
 use App\Repositories\Patient\PatientRepository;
+use App\Repositories\RayEmployee\RayEmployeeRepository;
 use App\Repositories\Services\ServiceRepository;
 use App\Interfaces\Services\ServiceRepositoryInterface;
 use App\Interfaces\Doctors\DoctorRepositoryInterface;
 use App\Repositories\Sections\SectionRepository;
 use App\Interfaces\Sections\SectionRepositoryInterface;
+
+
+
 use App\Models\Service;
 use Illuminate\Support\ServiceProvider;
 
@@ -49,12 +54,15 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(ReceiptRepositoryInterface::class, ReceiptRepository::class);
         $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
         $this->app->bind(InvoiceInterface::class, InvoiceRepository::class);
+        $this->app->bind(RayEmployeeInterface::class, RayEmployeeRepository::class);
 
         //Doctor
         $this->app->bind(DiagnosticInterface::class, DiagnosticRepository::class);
         $this->app->bind(RaysInterface::class, RaysRepository::class);
         $this->app->bind(LabInterface::class, LabRepository::class);
 
+        //Ray Employee
+        $this->app->bind(\App\Interfaces\RayEmployeeDashboard\InvoiceInterface::class, \App\Repositories\RayEmployeeDashboard\InvoiceRepository::class);
 
     }
 

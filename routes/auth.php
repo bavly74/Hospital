@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\RayEmployeeAuth;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,15 @@ Route::post('/logout/admin', [AdminAuth::class, 'destroy'])->middleware('auth:ad
 Route::post('/login/doctor', [DoctorAuthController::class, 'store'])->middleware('guest')->name('login.doctor');
 
 Route::post('/logout/doctor', [DoctorAuthController::class, 'destroy'])->middleware('auth:doctor')->name('logout.doctor');
+
+//#############################################################################################
+
+
+//################################## Route ray_employee ##############################################
+
+Route::post('/login/ray_employee', [RayEmployeeAuth::class, 'store'])->middleware('guest')->name('login.ray_employee');
+
+Route::post('/logout/ray_employee', [RayEmployeeAuth::class, 'destroy'])->middleware('auth:ray_employee')->name('logout.ray_employee');
 
 //#############################################################################################
 
