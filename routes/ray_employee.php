@@ -1,11 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\Doctor\DiagnosticController;
-use App\Http\Controllers\Doctor\InvoiceController;
-use App\Http\Controllers\Doctor\LabController;
-use App\Http\Controllers\Doctor\PatientDetails;
-use App\Http\Controllers\Doctor\RaysController;
+use App\Http\Controllers\RayEmployee\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +31,12 @@ Route::group(
         //End Dashboard rays employee//
 
 
+       Route::group(['prefix'=>'ray_employee_invoice'],function(){
+           Route::get('/',[InvoiceController::class,'index'])->name('dashboard.ray_employee_invoice.index');
+           Route::get('/edit/{id}',[InvoiceController::class,'edit'])->name('dashboard.ray_employee_invoice.edit');
+           Route::post('/update/{id}',[InvoiceController::class,'update'])->name('dashboard.ray_employee_invoice.update');
+
+       });
     });
 
 });

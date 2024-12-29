@@ -12,7 +12,7 @@ trait UploadImageTrait{
         return redirect()->back()->withInput();
     }
     $image=$request->file($inputName);
-    $name = \Str::slug($request->input('name'));
+    $name =\Str::slug($request->input('name'));
     $fileName=$name.'.'.$image->getClientOriginalExtension();
 
     $Image = new Image();
