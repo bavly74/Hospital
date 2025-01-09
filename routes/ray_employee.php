@@ -32,7 +32,7 @@ Route::group(
 
 
        Route::group(['prefix'=>'ray_employee_invoice'],function(){
-           Route::get('/',[InvoiceController::class,'index'])->name('dashboard.ray_employee_invoice.index');
+           Route::get('/{case}',[InvoiceController::class,'index'])->name('dashboard.ray_employee_invoice.index');
            Route::get('/edit/{id}',[InvoiceController::class,'edit'])->name('dashboard.ray_employee_invoice.edit');
            Route::post('/update/{id}',[InvoiceController::class,'update'])->name('dashboard.ray_employee_invoice.update');
 

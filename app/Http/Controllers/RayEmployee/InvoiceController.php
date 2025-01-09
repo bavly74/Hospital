@@ -13,8 +13,8 @@ class InvoiceController extends Controller
     {
         $this->rayEmployeeInvoice = $rayEmployeeInvoice;
     }
-    public function index(){
-        return $this->rayEmployeeInvoice->index();
+    public function index($id){
+        return $this->rayEmployeeInvoice->index($id);
     }
     public function edit($id){
         return $this->rayEmployeeInvoice->edit($id);

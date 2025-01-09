@@ -32,4 +32,9 @@ class RaysRepository implements RaysInterface
         session()->flash('delete');
         return redirect()->back();
     }
+
+    public function show($id){
+        $rays=Ray::where('id', $id)->where('doctor_id',auth()->user())->id->get();
+        return $rays;
+    }
 }

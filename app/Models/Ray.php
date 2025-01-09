@@ -20,5 +20,9 @@ class Ray extends Model
     public function employee(){
         return $this->belongsTo(RayEmployee::class);
     }
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 
 }
