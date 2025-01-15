@@ -25,6 +25,7 @@ $this->call([
     InsuranceTableSeeder::class,
     AmbulanceTableSeeder::class,
     RayEmployeeSeeder::class,
+    LabEmployeeSeeder::class,
 
 
 ]);

@@ -25,5 +25,9 @@ class RaysController extends Controller
         return $this->rays->destroy($request,$id);
     }
 
+    public function show($id){
+        return $this->rays->show($id);
+    }
+
 
 }

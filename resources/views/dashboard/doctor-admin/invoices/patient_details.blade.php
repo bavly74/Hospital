@@ -103,6 +103,8 @@
                                                                     <a class="modal-effect btn btn-sm btn-primary" data-effect="effect-scale"  data-toggle="modal" href="#edit_xray_conversion{{$patient_ray->id}}"><i class="fas fa-edit"></i></a>
                                                                     <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"  data-toggle="modal" href="#delete{{$patient_ray->id}}"><i class="las la-trash"></i></a>
                                                                 </td>
+                                                            @else
+                                                                 <td><a href="{{route('rays.show',['id'=>$patient_ray->id])}}" class="btn btn-primary">عرض</a> </td>
                                                             @endif
                                                         @endif
                                                         </tr>

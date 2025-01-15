@@ -14,6 +14,9 @@ class InvoiceRepository implements InvoiceInterface
     public function index($id)
     {
         $invoices=Ray::where('case',$id)->get();
+        if ($id==1){
+            $invoices = $invoices->where('employee_id',Auth::id());
+        }
         return view('dashboard.ray-employee-admin.invoices.index',compact('invoices'));
     }
 
@@ -34,12 +37,18 @@ class InvoiceRepository implements InvoiceInterface
                 $photo->storeAs('rays/',$filename, 'upload_image');
                 Image::create([
                     'filename'=>$filename ,
-                    'imageable_id'=>Auth::user()->id,
+                    'imageable_id'=>$invoice->id,
                     'imageable_type'=>'App\Models\Ray',
                 ]);
             }
         }
         session()->flash('add');
         return back();
+    }
+
+    public function show($id){
+
+        $rays = Ray::with('images','patient')->where('id',$id)->first();
+        return view('dashboard.ray-employee-admin.invoices.show',compact('rays'));
     }
 }

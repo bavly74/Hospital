@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\AmbulanceController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\InsuranceController;
+use App\Http\Controllers\Backend\LabEmployeeController;
 use App\Http\Controllers\Backend\PatientController;
 use App\Http\Controllers\Backend\RayEmployeeController;
 use App\Http\Controllers\Backend\ReceiptController;
@@ -186,7 +187,20 @@ Route::group(
         Route::post('/destroy/{id}', [RayEmployeeController::class,'destroy'])->name('rays-employees.destroy');
     }) ;
     //end Rays employee
+
+    //Lab employee
+    Route::prefix('lab-employees')->middleware('auth:admin')->group(function () {
+        Route::get('/', [LabEmployeeController::class,'index'])->name('lab-employees.index');
+        Route::get('/create', [LabEmployeeController::class,'create'])->name('lab-employees.create');
+        Route::post('/store', [LabEmployeeController::class,'store'])->name('lab-employees.store');
+        Route::get('/edit/{id}', [LabEmployeeController::class,'edit'])->name('lab-employees.edit');
+        Route::post('/update/{id}', [LabEmployeeController::class,'update'])->name('lab-employees.update');
+        Route::post('/destroy/{id}', [LabEmployeeController::class,'destroy'])->name('lab-employees.destroy');
+    }) ;
+    //end Lab employee
     });
+
+
 
 
 

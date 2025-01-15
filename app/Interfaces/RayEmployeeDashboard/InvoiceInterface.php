@@ -6,6 +6,7 @@ interface InvoiceInterface
 {
     public function index($id);
     public function edit($id);
-    public function update($request,$id);
+    public function update($request, $id);
 
+    public function show($id);
 }

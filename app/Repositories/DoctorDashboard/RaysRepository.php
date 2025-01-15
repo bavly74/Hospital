@@ -14,7 +14,7 @@ class RaysRepository implements RaysInterface
             'patient_id' => $request->patient_id,
             'invoice_id' => $request->invoice_id,
         ]);
-        return redirect()->back()->with(['success' => 'lab created successfully']);
+        return redirect()->back()->with(['success' => 'rays created successfully']);
     }
 
     public function update($request,$id){
@@ -34,7 +34,7 @@ class RaysRepository implements RaysInterface
     }
 
     public function show($id){
-        $rays=Ray::where('id', $id)->where('doctor_id',auth()->user())->id->get();
-        return $rays;
+        $rays=Ray::with('images','patient')->where('id', $id)->where('doctor_id',auth()->user()->id)->first();
+        return view('dashboard.doctor-admin.rays.show',compact('rays'));
     }
 }

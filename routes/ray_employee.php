@@ -35,6 +35,7 @@ Route::group(
            Route::get('/{case}',[InvoiceController::class,'index'])->name('dashboard.ray_employee_invoice.index');
            Route::get('/edit/{id}',[InvoiceController::class,'edit'])->name('dashboard.ray_employee_invoice.edit');
            Route::post('/update/{id}',[InvoiceController::class,'update'])->name('dashboard.ray_employee_invoice.update');
+           Route::get('/show/{id}',[InvoiceController::class,'show'])->name('dashboard.ray_employee_invoice.show');
 
        });
     });

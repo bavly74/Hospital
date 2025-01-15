@@ -51,6 +51,7 @@ Route::group(
             Route::post('/store', [RaysController::class,'store'])->name('rays.store');
             Route::post('/update/{id}', [RaysController::class,'update'])->name('rays.update');
             Route::post('/destroy/{id}', [RaysController::class,'destroy'])->name('rays.destroy');
+            Route::get('/show/{id}', [RaysController::class,'show'])->name('rays.show');
         });
 
         Route::group(['prefix'=>'labs'],function(){
