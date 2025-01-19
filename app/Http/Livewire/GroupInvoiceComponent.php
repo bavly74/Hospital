@@ -33,7 +33,7 @@ class GroupInvoiceComponent extends Component
     public function render()
     {
         return view('livewire.group-invoice.group-invoice-component',[
-            'group_invoices'=>Invoice::with('Service','Patient','Doctor','Section')->where('invoice_type',2)->get(),
+            'group_invoices'=>Invoice::with('Service','PatientDashboard','Doctor','Section')->where('invoice_type',2)->get(),
             'Patients'=>Patient::all(),
             'Doctors'=>Doctor::all(),
             'Groups'=>Group::all() ,

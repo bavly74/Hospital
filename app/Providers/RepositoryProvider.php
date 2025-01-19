@@ -7,6 +7,7 @@ use App\Interfaces\DoctorDashboard\LabInterface;
 use App\Interfaces\DoctorDashboard\RaysInterface;
 use App\Interfaces\Finance\PaymentRepositoryInterface;
 use App\Interfaces\LabEmployee\LabEmployeeInterface;
+
 use App\Interfaces\RayEmployee\RayEmployeeInterface;
 use App\Repositories\DoctorDashboard\DiagnosticRepository;
 use App\Repositories\DoctorDashboard\InvoiceRepository;
@@ -67,6 +68,15 @@ class RepositoryProvider extends ServiceProvider
 
         //Ray Employee
         $this->app->bind(\App\Interfaces\RayEmployeeDashboard\InvoiceInterface::class, \App\Repositories\RayEmployeeDashboard\InvoiceRepository::class);
+
+
+        //Lab Employee
+        $this->app->bind(\App\Interfaces\LabEmployeeDashboard\InvoiceInterface::class, \App\Repositories\LabEmployeeDashboard\InvoiceRepository::class);
+
+        //Patient
+        $this->app->bind(\App\Interfaces\PatientDashboard\PatientInterface::class, \App\Repositories\PatientDashboard\PatientRepository::class);
+
+
 
     }
 

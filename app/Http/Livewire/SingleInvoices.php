@@ -42,7 +42,7 @@ class SingleInvoices extends Component
             'Doctors'=>Doctor::all(),
             'services'=>Service::all(),
             'total'=> ( $this->service_price - $this->discount_value ) + ($this->tax_rate * ($this->service_price - $this->discount_value )/100 ),
-            'single_invoices'=> Invoice::with('Service','Patient','Doctor','Section')->where('invoice_type',1)->get(),
+            'single_invoices'=> Invoice::with('Service','PatientDashboard','Doctor','Section')->where('invoice_type',1)->get(),
         ]);
     }
     public function get_section(){

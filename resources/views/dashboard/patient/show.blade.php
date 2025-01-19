@@ -49,7 +49,7 @@
                                     <div class="tab-content">
 
 
-                                        {{-- Strat Show Information Patient --}}
+                                        {{-- Strat Show Information PatientDashboard --}}
 
                                         <div class="tab-pane active" id="tab1">
                                             <br>
@@ -81,11 +81,11 @@
                                             </div>
                                         </div>
 
-                                        {{-- End Show Information Patient --}}
+                                        {{-- End Show Information PatientDashboard --}}
 
 
 
-                                        {{-- Start Invices Patient --}}
+                                        {{-- Start Invices PatientDashboard --}}
 
                                         <div class="tab-pane" id="tab2">
 
@@ -122,11 +122,11 @@
                                             </div>
                                         </div>
 
-                                        {{-- End Invices Patient --}}
+                                        {{-- End Invices PatientDashboard --}}
 
 
 
-                                        {{-- Start Receipt Patient  --}}
+                                        {{-- Start Receipt PatientDashboard  --}}
 
                                         <div class="tab-pane" id="tab3">
                                             <div class="table-responsive">
@@ -160,10 +160,10 @@
                                             </div>
                                         </div>
 
-                                        {{-- End Receipt Patient  --}}
+                                        {{-- End Receipt PatientDashboard  --}}
 
 
-                                        {{-- Start payment accounts Patient --}}
+                                        {{-- Start payment accounts PatientDashboard --}}
                                         <div class="tab-pane" id="tab4">
                                             <div class="table-responsive">
                                                 <table class="table table-hover text-md-nowrap text-center" id="example1">
@@ -218,7 +218,7 @@
 
                                         </div>
 
-                                        {{-- End payment accounts Patient --}}
+                                        {{-- End payment accounts PatientDashboard --}}
 
 
                                         <div class="tab-pane" id="tab5">

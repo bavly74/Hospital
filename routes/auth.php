@@ -6,8 +6,10 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\DoctorAuthController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\LabEmployeeAuth;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\PatientAuth;
 use App\Http\Controllers\Auth\RayEmployeeAuth;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -19,6 +21,13 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
+
+
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function(){
 
 
 //################################## Route User ##############################################
@@ -55,7 +64,24 @@ Route::post('/logout/ray_employee', [RayEmployeeAuth::class, 'destroy'])->middle
 
 //#############################################################################################
 
+//################################## Route lab_employee ##############################################
 
+    Route::post('/login/lab_employee', [LabEmployeeAuth::class, 'store'])->middleware('guest')->name('login.lab_employee');
+
+    Route::post('/logout/lab_employee', [LabEmployeeAuth::class, 'destroy'])->middleware('auth:lab_employee')->name('logout.lab_employee');
+
+//#############################################################################################
+
+
+//################################## Route patient ##############################################
+
+    Route::post('/login/patient', [PatientAuth::class, 'store'])->middleware('guest')->name('login.patient');
+
+    Route::post('/logout/patient', [PatientAuth::class, 'destroy'])->middleware('auth:patient')->name('logout.patient');
+
+//#############################################################################################
+
+});
 
 
 

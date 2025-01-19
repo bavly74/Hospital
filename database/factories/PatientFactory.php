@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class PatientFactory extends Factory
 {
-//    protected $model = Patient::class;
+//    protected $model = PatientDashboard::class;
 
     public function definition()
     {
