@@ -45,5 +45,4 @@
         @include('livewire.single-invoice.delete')
 
         @endforeach
-    </table>
 </div>

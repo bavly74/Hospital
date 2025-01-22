@@ -2,7 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\InvoiceNotification;
+use App\Events\MyEvent;
 use App\Models\Invoice;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Doctor;
 use App\Models\FundAccount;
@@ -36,13 +40,12 @@ class SingleInvoices extends Component
 
     public function render()
     {
-
         return view('livewire.single-invoice.single-invoice',[
             'patients'=>Patient::all(),
             'Doctors'=>Doctor::all(),
             'services'=>Service::all(),
             'total'=> ( $this->service_price - $this->discount_value ) + ($this->tax_rate * ($this->service_price - $this->discount_value )/100 ),
-            'single_invoices'=> Invoice::with('Service','PatientDashboard','Doctor','Section')->where('invoice_type',1)->get(),
+            'single_invoices'=> Invoice::with('Service','Patient','Doctor','Section')->where('invoice_type',1)->get(),
         ]);
     }
     public function get_section(){
@@ -69,7 +72,6 @@ class SingleInvoices extends Component
                 } else {
                     $single_invoices = new Invoice();
                     $fund_accounts = new FundAccount();
-
                 }
                 $single_invoices->invoice_type = 1;
                 $single_invoices->invoice_date = date('Y-m-d');
@@ -94,6 +96,18 @@ class SingleInvoices extends Component
                 $fund_accounts->credit = 0.00;
                 $fund_accounts->save();
 
+                $notification = new Notification();
+                $notification->username = Doctor::where('id',$this->doctor_id)->first()->name;
+                $notification->message = ' كشف جديد ' . Patient::where('id',$this->patient_id)->first()->name;
+                $notification->save();
+                $data = [
+                    'message'=> ' كشف جديد '.Patient::where('id',$this->patient_id)->first()->name ,
+                    'patient'=> Patient::where('id',$this->patient_id)->first()->name,
+                    'invoice_id'=> $single_invoices->id ,
+                    'created_at'=> date('Y-m-d')
+                ] ;
+
+                event(new InvoiceNotification($data));
 
                 if ($this->updateMode) {
                     $this->InvoiceUpdated = true;

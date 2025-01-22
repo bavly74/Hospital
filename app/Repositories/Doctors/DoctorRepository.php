@@ -2,9 +2,11 @@
 
 namespace App\Repositories\Doctors;
 
+use App\Events\InvoiceNotification;
 use App\Models\Doctor;
 use App\Interfaces\Doctors\DoctorRepositoryInterface;
 use App\Models\Appointment;
+use App\Models\Notification;
 use App\Models\Section;
 use App\Traits\UploadImageTrait;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +31,7 @@ class DoctorRepository implements DoctorRepositoryInterface
 
     public function store($request)
     {
- 
+
         DB::beginTransaction();
         try {
             $doctors = new Doctor();
@@ -48,6 +50,7 @@ class DoctorRepository implements DoctorRepositoryInterface
             $doctors->doctorappointments()->attach($request->appointments);
 
             $this->uploadImage($request, 'photo', 'doctors', 'upload_image', $doctors->id, 'App\Models\Doctor');
+
 
             DB::commit();
             session()->flash('add');
