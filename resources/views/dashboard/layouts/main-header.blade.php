@@ -181,7 +181,7 @@
                             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                         </svg>
                         <span class=" pulse" style="padding: 9px;display: block;position: absolute;top: 0;right: -2px;width: 17px;height: 17px;"></span></a>
-                    <div class="number-of-notifications" style="position: absolute;top: 0;font-size: 12px;color: white;"><p>{{\App\Models\Notification::where('username',auth()->user()->name)->count()}}</p></div>
+                    <div class="number-of-notifications" style="position: absolute;top: 0;font-size: 12px;color: white;"><p>{{\App\Models\Notification::where('user_id',auth()->user()->id)->count()}}</p></div>
                     <div class="dropdown-menu dropdown-notifications">
                         <div class="menu-header-content bg-primary text-right">
                             <div class="d-flex">
@@ -189,7 +189,7 @@
                                 <span
                                     class="badge badge-pill badge-warning mr-auto my-auto float-left">Mark All Read</span>
                             </div>
-                            <p data-count="{{\App\Models\Notification::where('username',auth()->user()->name)->count()}}" class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 notif-count">{{\App\Models\Notification::where('username',auth()->user()->name)->count()}}</p>
+                            <p data-count="{{\App\Models\Notification::where('user_id',auth()->user()->id)->count()}}" class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 notif-count">{{\App\Models\Notification::where('user_id',auth()->user()->id)->count()}}</p>
                         </div>
                         <div class="main-notification-list Notification-scroll">
                             <div class="new_msg">
@@ -207,7 +207,7 @@
                                 </a>
 
                             </div>
-                            @foreach(App\Models\Notification::where('username',auth()->user()->name)->where('reader_status',0)->get() as $notification )
+                            @foreach(App\Models\Notification::where('user_id',auth()->user()->id)->where('reader_status',0)->get() as $notification )
                             <a class="d-flex p-3 border-bottom" href="#">
                                 <div class="notifyimg bg-pink">
                                     <i class="la la-file-alt text-white"></i>
@@ -294,6 +294,7 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script src="{{asset('js/app.js')}}"></script>
 
 <script>
     var notificationsWrapper   = $('.dropdown-notifications');
@@ -303,14 +304,14 @@
     var notifications = notificationsWrapper.find('h4.notification-label');
     var new_msg = notificationsWrapper.find('.new_msg');
     new_msg.hide();
-
-    Pusher.logToConsole = true;
-    var pusher = new Pusher('f4bb77c496a88fd2cd23', {
-        cluster: 'mt1'
-    });
-
-    var channel = pusher.subscribe('create-invoice');
-    channel.bind('App\\Events\\InvoiceNotification', function(data) {
+    //
+    // Pusher.logToConsole = true;
+    // var pusher = new Pusher('f4bb77c496a88fd2cd23', {
+    //     cluster: 'mt1'
+    // });
+    //
+    // var channel = pusher.subscribe('create-invoice');
+    Echo.private('create-invoice.{{ auth()->user()->id }}').listen('.create-invoice', (data) => {
         console.log(data);
         var newNotificationHtml = `
        <h4 class="notification-label mb-1">`+data.message+data.patient+`</h4>

@@ -97,14 +97,15 @@ class SingleInvoices extends Component
                 $fund_accounts->save();
 
                 $notification = new Notification();
-                $notification->username = Doctor::where('id',$this->doctor_id)->first()->name;
+                $notification->user_id = $this->doctor_id;
                 $notification->message = ' كشف جديد ' . Patient::where('id',$this->patient_id)->first()->name;
                 $notification->save();
                 $data = [
                     'message'=> ' كشف جديد '.Patient::where('id',$this->patient_id)->first()->name ,
                     'patient'=> Patient::where('id',$this->patient_id)->first()->name,
                     'invoice_id'=> $single_invoices->id ,
-                    'created_at'=> date('Y-m-d')
+                    'created_at'=> date('Y-m-d') ,
+                    'doctor_id' =>  $this->doctor_id,
                 ] ;
 
                 event(new InvoiceNotification($data));
