@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\PatientDashboard\PatientController;
 use Illuminate\Support\Facades\Route;
-
+use \App\Http\Livewire\Chat\CreateChat;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,6 +35,8 @@ Route::group(
         Route::get('lab/show/{id}', [PatientController::class,'showLab'])->name('dashboard.patientDashboard.lab.show');
         Route::get('ray/show/{id}', [PatientController::class,'showRay'])->name('dashboard.patientDashboard.ray.show');
 
+
+        Route::get('list/doctors', CreateChat::class)->name('dashboard.patientDashboard.list-doctors');
 
     });
 
