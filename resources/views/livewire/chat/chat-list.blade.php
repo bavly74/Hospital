@@ -1,3 +1,17 @@
 <div>
-    {{-- The best athlete wants his opponent at his best. --}}
+    <div class="main-chat-list" id="ChatList">
+        @foreach($conversations as $conversation)
+
+        <div class="media new">
+
+            <div class="media-body">
+                <div class="media-contact-name">
+                    <span>{{$this->getUsers($conversation , 'name')}}</span> <span>{{$conversation->created_at->diffForHumans()}}</span>
+                </div>
+                <p>{{$conversation->messages->last()->body}}</p>
+            </div>
+        </div>
+        @endforeach
+
+    </div><!-- main-chat-list -->
 </div>

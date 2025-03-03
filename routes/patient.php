@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PatientDashboard\PatientController;
+use App\Http\Livewire\Chat\Main;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Livewire\Chat\CreateChat;
 /*
@@ -37,6 +38,7 @@ Route::group(
 
 
         Route::get('list/doctors', CreateChat::class)->name('dashboard.patientDashboard.list-doctors');
+        Route::get('chats/doctors', Main::class)->name('dashboard.patientDashboard.chats-doctors');
 
     });
 

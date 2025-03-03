@@ -16,13 +16,13 @@
                         @foreach($users as $user)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td><button class="btn btn-primary" >{{$user->name}}</button></td>
+                                <td><button class="btn btn-primary" wire:click="openConversation( '{{$user->email}}' )" >{{$user->name}}</button></td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
-{{--                {{$users->links()}}--}}
+                {{$users->links('pagination::bootstrap-4')}}
             </div><!-- bd -->
         </div><!-- bd -->
     </div>
